@@ -1,0 +1,132 @@
+/* ===== BLOG POST ===== */
+.post-wrap {
+  background: #f9f9f9;
+  padding: 4rem 0 6rem;
+}
+
+.post-container {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 3rem 3.5rem;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.post-tag {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.9rem;
+  border-radius: 999px;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+.post-container h1 {
+  font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1.2;
+  margin-bottom: 0.8rem;
+  color: #000;
+}
+
+.post-meta {
+  font-size: 0.85rem;
+  color: #aaa;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.post-lead {
+  font-size: 1.15rem;
+  color: #444;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+.post-container h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 2.2rem 0 0.8rem;
+  color: #000;
+  letter-spacing: -0.3px;
+}
+
+.post-container p {
+  font-size: 0.97rem;
+  color: #444;
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.post-container ul,
+.post-container ol {
+  margin: 0.5rem 0 1.2rem 1.5rem;
+}
+
+.post-container li {
+  font-size: 0.97rem;
+  color: #444;
+  line-height: 1.75;
+  margin-bottom: 0.4rem;
+}
+
+.post-container a {
+  color: #000;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.post-container a:hover { color: #555; }
+
+/* ===== CTA BOX ===== */
+.post-cta {
+  background: #000;
+  color: #fff;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.post-cta h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.post-cta p {
+  color: #aaa;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.post-cta .btn-primary {
+  background: #fff;
+  color: #000;
+  padding: 0.85rem 2.2rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: opacity 0.2s;
+}
+
+.post-cta .btn-primary:hover { opacity: 0.85; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .post-container {
+    padding: 2rem 1.5rem;
+    border-radius: 0;
+  }
+}
