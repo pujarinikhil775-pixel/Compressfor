@@ -25,6 +25,11 @@ function loadCompressFiles(files) {
   compressFiles = files;
   if (files.length === 0) return;
   document.getElementById('compressControls').style.display = 'flex';
+
+  // Set default quality to 80
+  document.getElementById('qualitySlider').value = 80;
+  document.getElementById('qualityValue').textContent = 80;
+
   const results = document.getElementById('compressResults');
   results.innerHTML = '';
   files.forEach(file => {
@@ -48,6 +53,7 @@ async function compressAll() {
     alert('Please upload at least one image first!');
     return;
   }
+
   const quality = parseInt(document.getElementById('qualitySlider').value) / 100;
   const format = document.getElementById('outputFormat').value;
   const cards = document.querySelectorAll('#compressResults .result-card');
@@ -67,12 +73,24 @@ async function compressAll() {
       bar.style.width = '100%';
 
       const saving = Math.round((1 - blob.size / file.size) * 100);
-      const savingText = saving > 0 ? `↓ ${saving}% smaller` : 'Optimized';
+
+      let savingText = '';
+      let savingColor = '#000';
+      if (saving > 0) {
+        savingText = `↓ ${saving}% smaller`;
+        savingColor = '#000';
+      } else if (saving === 0) {
+        savingText = 'Already optimized';
+        savingColor = '#888';
+      } else {
+        savingText = 'Try lower quality';
+        savingColor = '#e00';
+      }
 
       info.innerHTML = `
-        Original: ${formatSize(file.size)} → 
+        Original: ${formatSize(file.size)} →
         Compressed: ${formatSize(blob.size)}
-        <span class="result-saving">${savingText}</span>
+        <span class="result-saving" style="background:${savingColor}">${savingText}</span>
       `;
 
       const url = URL.createObjectURL(blob);
@@ -104,8 +122,16 @@ function compressImage(file, quality, format) {
       const mimeType = format === 'png' ? 'image/png'
         : format === 'webp' ? 'image/webp' : 'image/jpeg';
       canvas.toBlob(blob => {
-        if (blob) resolve(blob);
-        else reject(new Error('Compression failed'));
+        if (blob) {
+          // Never return larger than original
+          if (blob.size >= file.size) {
+            resolve(file);
+          } else {
+            resolve(blob);
+          }
+        } else {
+          reject(new Error('Compression failed'));
+        }
       }, mimeType, quality);
       URL.revokeObjectURL(url);
     };
@@ -259,9 +285,9 @@ function loadPresetFiles(files) {
       bar.style.width = '100%';
       const saving = Math.round((1 - blob.size / file.size) * 100);
       info.innerHTML = `
-        Original: ${formatSize(file.size)} → 
+        Original: ${formatSize(file.size)} →
         Result: ${formatSize(blob.size)}
-        <span class="result-saving">${saving > 0 ? '↓ ' + saving + '%' : 'Done'}</span>
+        <span class="result-saving">${saving > 0 ? '↓ ' + saving + '%' : 'Optimized'}</span>
       `;
       const ext = preset.format === 'jpeg' ? 'jpg' : preset.format;
       const url = URL.createObjectURL(blob);
