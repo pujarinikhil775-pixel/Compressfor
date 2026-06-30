@@ -532,3 +532,218 @@ a { text-decoration: none; color: inherit; }
 .goog-te-menu-value span { color: #fff !important; }
 body { top: 0 !important; }
 .skiptranslate { display: none !important; }
+/* ===== DARK MODE TOGGLE BUTTON ===== */
+.theme-toggle {
+  background: #f0f0f0;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+  background: #000;
+  transform: scale(1.05);
+}
+
+/* ===== DARK MODE STYLES ===== */
+body.dark-mode {
+  background: #0d0d0d;
+  color: #e8e8e8;
+}
+
+body.dark-mode .navbar {
+  background: rgba(13,13,13,0.95);
+  border-bottom: 1px solid #2a2a2a;
+}
+
+body.dark-mode .logo {
+  color: #fff;
+}
+
+body.dark-mode .nav-links a {
+  color: #aaa;
+}
+
+body.dark-mode .nav-links a:hover {
+  color: #fff;
+}
+
+body.dark-mode .theme-toggle {
+  background: #2a2a2a;
+}
+
+body.dark-mode .theme-toggle:hover {
+  background: #fff;
+  color: #000;
+}
+
+body.dark-mode .tabs-section {
+  background: #161616;
+}
+
+body.dark-mode .tab-buttons {
+  background: #222;
+}
+
+body.dark-mode .tab-btn {
+  color: #999;
+}
+
+body.dark-mode .tab-btn.active {
+  background: #fff;
+  color: #000;
+}
+
+body.dark-mode .upload-zone {
+  background: #1a1a1a;
+  border-color: #333;
+}
+
+body.dark-mode .upload-zone:hover {
+  background: #222;
+  border-color: #fff;
+}
+
+body.dark-mode .upload-title {
+  color: #fff;
+}
+
+body.dark-mode .upload-sub {
+  color: #888;
+}
+
+body.dark-mode .controls {
+  background: #1a1a1a;
+  border-color: #2a2a2a;
+}
+
+body.dark-mode .control-row {
+  color: #ccc;
+}
+
+body.dark-mode .control-row select {
+  background: #222;
+  border-color: #333;
+  color: #fff;
+}
+
+body.dark-mode .btn-primary {
+  background: #fff;
+  color: #000;
+}
+
+body.dark-mode .btn-primary:hover {
+  background: #ddd;
+}
+
+body.dark-mode .btn-secondary {
+  border-color: #444;
+  color: #ccc;
+}
+
+body.dark-mode .btn-secondary:hover {
+  border-color: #fff;
+  color: #fff;
+}
+
+body.dark-mode .result-card {
+  background: #1a1a1a;
+  border-color: #2a2a2a;
+}
+
+body.dark-mode .result-name {
+  color: #fff;
+}
+
+body.dark-mode .result-sizes {
+  color: #999;
+}
+
+body.dark-mode .result-saving {
+  background: #fff;
+  color: #000;
+}
+
+body.dark-mode .result-download {
+  background: #fff;
+  color: #000;
+}
+
+body.dark-mode .result-download:hover {
+  background: #ddd;
+}
+
+body.dark-mode .preset-card {
+  background: #1a1a1a;
+  border-color: #2a2a2a;
+}
+
+body.dark-mode .preset-card:hover {
+  border-color: #fff;
+}
+
+body.dark-mode .preset-card.selected {
+  background: #fff;
+  color: #000;
+}
+
+body.dark-mode .preset-card.selected p,
+body.dark-mode .preset-card.selected .preset-tag {
+  color: #555;
+}
+
+body.dark-mode .preset-card h3 {
+  color: #fff;
+}
+
+body.dark-mode .preset-card.selected h3 {
+  color: #000;
+}
+
+body.dark-mode .preset-card p {
+  color: #999;
+}
+
+body.dark-mode .preset-tag {
+  background: #2a2a2a;
+  color: #aaa;
+}
+
+body.dark-mode .how-section {
+  background: #0d0d0d;
+}
+
+body.dark-mode .how-section h2 {
+  color: #fff;
+}
+
+body.dark-mode .step {
+  border-color: #2a2a2a;
+}
+
+body.dark-mode .step h4 {
+  color: #fff;
+}
+
+body.dark-mode .step p {
+  color: #999;
+}
+
+body.dark-mode .step-num {
+  color: #333;
+}
+
+body.dark-mode .progress-bar-wrap {
+  background: #2a2a2a;
+}
+
+body.dark-mode .progress-bar {
+  background: #fff;
+}
