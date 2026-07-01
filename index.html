@@ -3,24 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CompressFor — Free Image Compressor & Converter</title>
+  <title>CompressFor — Free Image Compressor & Converter for Instagram, Government & University</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23fff' stroke='%23000' stroke-width='6'/><text y='54' x='50' text-anchor='middle' font-size='38' font-family='Inter,sans-serif' font-weight='700' fill='%23000'>CF</text></svg>"/>
-  <meta name="description" content="Free online image compressor and converter. Compress images for Instagram, Government forms, University uploads. Convert JPG, PNG, WebP instantly."/>
-  <meta name="keywords" content="image compressor, compress image, convert image, compress for instagram, compress for government, compress for university"/>
+  <meta name="description" content="Free online image compressor and converter. Compress images for Instagram, Government forms, University uploads. Convert JPG, PNG, WebP instantly. No upload to server."/>
+  <meta name="keywords" content="image compressor, compress image, convert image, compress for instagram, compress for government, compress for university, jpg to png, png to webp, free image compressor"/>
   <meta name="robots" content="index, follow"/>
+  <meta name="geo.region" content="IN"/>
+  <meta name="geo.placename" content="India"/>
+  <meta name="language" content="English"/>
+  <link rel="canonical" href="https://www.compressfor.com/"/>
+  <meta property="og:title" content="CompressFor — Free Image Compressor & Converter"/>
+  <meta property="og:description" content="Compress images for Instagram, Government, University and more. Free, fast, private."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://www.compressfor.com/"/>
+  <meta property="og:site_name" content="CompressFor"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="CompressFor — Free Image Compressor & Converter"/>
+  <meta name="twitter:description" content="Compress images for Instagram, Government, University and more."/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "CompressFor",
+    "url": "https://www.compressfor.com",
+    "description": "Free image compressor and converter for Instagram, Government forms, University uploads and more.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
   <link rel="stylesheet" href="style.css"/>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>  <style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+  <style>
     .goog-te-banner-frame { display: none !important; }
     body { top: 0 !important; }
     .skiptranslate { display: none !important; }
     #google_translate_element select {
       background: #000;
       color: #fff;
-      border: 1px solid #444;s
+      border: 1px solid #444;
       border-radius: 8px;
       padding: 0.3rem 0.6rem;
       font-size: 0.85rem;
@@ -32,6 +61,7 @@
 </head>
 <body>
 
+  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-inner">
       <span class="logo">CompressFor</span>
@@ -39,16 +69,18 @@
         <a href="index.html">Home</a>
         <a href="blog.html">Blog</a>
         <a href="contact.html">Contact</a>
-        <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌙</button>
         <div id="google_translate_element"></div>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌙</button>
       </div>
     </div>
   </nav>
+
   <main>
 
+  <!-- HERO -->
   <section class="hero">
-    <h1>Compress & Convert Images<br/><span>For Any Purpose</span></h1>
-    <p>Instagram-ready, Government forms, University uploads — all in one place. Free, fast, private.</p>
+    <h1>Free Image Compressor & Converter<br/><span>For Instagram, Government & University</span></h1>
+    <p>Compress images for Instagram, Government forms, University uploads — all in one place. Free, fast, private.</p>
     <div class="hero-badges">
       <span class="badge">No Upload to Server</span>
       <span class="badge">100% Free</span>
@@ -57,14 +89,16 @@
     </div>
   </section>
 
+  <!-- TABS -->
   <section class="tabs-section" id="compress">
     <div class="container">
       <div class="tab-buttons">
-  <button class="tab-btn active" onclick="switchTab('compress')">Compress</button>
-  <button class="tab-btn" onclick="switchTab('presets')">Presets</button>
-  <button class="tab-btn" onclick="switchTab('convert')">Convert</button>
-</div>
+        <button class="tab-btn active" onclick="switchTab('compress')">Compress</button>
+        <button class="tab-btn" onclick="switchTab('presets')">Presets</button>
+        <button class="tab-btn" onclick="switchTab('convert')">Convert</button>
+      </div>
 
+      <!-- COMPRESS TAB -->
       <div class="tab-content active" id="tab-compress">
         <div class="upload-zone" id="compressDropZone"
           ondragover="event.preventDefault()"
@@ -98,6 +132,61 @@
         <div class="results" id="compressResults"></div>
       </div>
 
+      <!-- PRESETS TAB -->
+      <div class="tab-content" id="tab-presets">
+        <p class="preset-intro">Choose a preset — settings are automatically applied for you.</p>
+        <div class="preset-grid">
+          <div class="preset-card" onclick="applyPreset('instagram')">
+            <div class="preset-icon">📸</div>
+            <h2>Instagram</h2>
+            <p>Max 1080px wide, under 8MB, JPG format. Perfect for posts and stories.</p>
+            <span class="preset-tag">Social Media</span>
+          </div>
+          <div class="preset-card" onclick="applyPreset('government')">
+            <div class="preset-icon">🏛️</div>
+            <h2>Government</h2>
+            <p>Under 50KB or 200KB, JPG format. Ideal for official form uploads.</p>
+            <span class="preset-tag">Official</span>
+          </div>
+          <div class="preset-card" onclick="applyPreset('university')">
+            <div class="preset-icon">🎓</div>
+            <h2>University</h2>
+            <p>Passport size, under 100KB, JPG. For admission and ID card uploads.</p>
+            <span class="preset-tag">Education</span>
+          </div>
+          <div class="preset-card" onclick="applyPreset('whatsapp')">
+            <div class="preset-icon">💬</div>
+            <h2>WhatsApp</h2>
+            <p>Optimized for WhatsApp sharing. Reduced size, good quality.</p>
+            <span class="preset-tag">Messaging</span>
+          </div>
+          <div class="preset-card" onclick="applyPreset('email')">
+            <div class="preset-icon">✉️</div>
+            <h2>Email</h2>
+            <p>Under 1MB, perfect for email attachments without quality loss.</p>
+            <span class="preset-tag">Professional</span>
+          </div>
+          <div class="preset-card" onclick="applyPreset('web')">
+            <div class="preset-icon">🌐</div>
+            <h2>Website / Blog</h2>
+            <p>WebP format, optimized for fast web loading and SEO performance.</p>
+            <span class="preset-tag">Web</span>
+          </div>
+        </div>
+        <div class="upload-zone" id="presetDropZone" style="margin-top:2rem; display:none"
+          ondragover="event.preventDefault()"
+          ondrop="handlePresetDrop(event)"
+          onclick="document.getElementById('presetInput').click()">
+          <div class="upload-icon">↑</div>
+          <p class="upload-title" id="presetZoneTitle">Upload for selected preset</p>
+          <p class="upload-sub">or click to browse</p>
+          <input type="file" id="presetInput" multiple accept="image/*"
+            onchange="handlePresetFiles(this.files)" hidden/>
+        </div>
+        <div class="results" id="presetResults"></div>
+      </div>
+
+      <!-- CONVERT TAB -->
       <div class="tab-content" id="tab-convert">
         <div class="upload-zone" id="convertDropZone"
           ondragover="event.preventDefault()"
@@ -126,86 +215,102 @@
         <div class="results" id="convertResults"></div>
       </div>
 
-      <div class="tab-content" id="tab-presets">
-        <p class="preset-intro">Choose a preset — settings are automatically applied for you.</p>
-        <div class="preset-grid">
-          <div class="preset-card" onclick="applyPreset('instagram')">
-            <div class="preset-icon">📸</div>
-            <h3>Instagram</h3>
-            <p>Max 1080px wide, under 8MB, JPG format. Perfect for posts and stories.</p>
-            <span class="preset-tag">Social Media</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('government')">
-            <div class="preset-icon">🏛️</div>
-            <h3>Government</h3>
-            <p>Under 50KB or 200KB, JPG format. Ideal for official form uploads.</p>
-            <span class="preset-tag">Official</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('university')">
-            <div class="preset-icon">🎓</div>
-            <h3>University</h3>
-            <p>Passport size, under 100KB, JPG. For admission and ID card uploads.</p>
-            <span class="preset-tag">Education</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('whatsapp')">
-            <div class="preset-icon">💬</div>
-            <h3>WhatsApp</h3>
-            <p>Optimized for WhatsApp sharing. Reduced size, good quality.</p>
-            <span class="preset-tag">Messaging</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('email')">
-            <div class="preset-icon">✉️</div>
-            <h3>Email</h3>
-            <p>Under 1MB, perfect for email attachments without quality loss.</p>
-            <span class="preset-tag">Professional</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('web')">
-            <div class="preset-icon">🌐</div>
-            <h3>Website / Blog</h3>
-            <p>WebP format, optimized for fast web loading and SEO performance.</p>
-            <span class="preset-tag">Web</span>
-          </div>
-        </div>
-        <div class="upload-zone" id="presetDropZone" style="margin-top:2rem; display:none"
-          ondragover="event.preventDefault()"
-          ondrop="handlePresetDrop(event)"
-          onclick="document.getElementById('presetInput').click()">
-          <div class="upload-icon">↑</div>
-          <p class="upload-title" id="presetZoneTitle">Upload for selected preset</p>
-          <p class="upload-sub">or click to browse</p>
-          <input type="file" id="presetInput" multiple accept="image/*"
-            onchange="handlePresetFiles(this.files)" hidden/>
-        </div>
-        <div class="results" id="presetResults"></div>
-      </div>
-
     </div>
   </section>
 
+  <!-- HOW IT WORKS -->
   <section class="how-section">
     <div class="container">
       <h2>How It Works</h2>
       <div class="steps-grid">
         <div class="step">
           <div class="step-num">01</div>
-          <h4>Upload</h4>
+          <h3>Upload Your Image</h3>
           <p>Drag & drop or click to upload your images. Supports JPG, PNG, WebP, GIF.</p>
         </div>
         <div class="step">
           <div class="step-num">02</div>
-          <h4>Choose</h4>
+          <h3>Choose Your Settings</h3>
           <p>Pick a preset like Instagram or Government, or set your own quality and format.</p>
         </div>
         <div class="step">
           <div class="step-num">03</div>
-          <h4>Download</h4>
+          <h3>Download Instantly</h3>
           <p>Get your compressed or converted image instantly. No signup needed.</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- FAQ SECTION -->
+  <section class="faq-section">
+    <div class="container">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h3>Is CompressFor completely free?</h3>
+          <p>Yes, CompressFor is 100% free with no hidden charges, no watermarks, and no registration required.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Are my images uploaded to a server?</h3>
+          <p>No. All compression and conversion happens directly in your browser. Your images never leave your device.</p>
+        </div>
+        <div class="faq-item">
+          <h3>What image formats are supported?</h3>
+          <p>CompressFor supports JPG, PNG, WebP, and GIF for compression. JPG, PNG, and WebP for conversion.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How do I compress an image for a Government form?</h3>
+          <p>Click the Presets tab, select Government, upload your image and it will be automatically compressed to under 200KB in JPG format.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Can I compress multiple images at once?</h3>
+          <p>Yes! Simply select multiple files when uploading or drag and drop several images at once into the upload zone.</p>
+        </div>
+        <div class="faq-item">
+          <h3>What is the Instagram preset?</h3>
+          <p>The Instagram preset resizes your image to a maximum of 1080px wide and compresses it under 8MB in JPG format — perfect for posts and stories.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR STORY -->
+  <section class="story-section">
+    <div class="container">
+      <div class="story-wrap">
+        <div class="story-content">
+          <span class="story-tag">Our Story</span>
+          <h2>Why We Built CompressFor</h2>
+          <p>We were tired of uploading photos for government forms, university admissions, and Instagram posts — only to get rejected because the file was "too large." Every tool out there either uploaded our private photos to unknown servers, added ugly watermarks, or asked us to sign up just to compress one image.</p>
+          <p>So we built CompressFor — a tool that works entirely in your browser. Your images never leave your device. No signup, no watermark, no limits. Just fast, free, reliable compression for whatever you need it for.</p>
+          <p>Today, CompressFor helps people compress and convert images for Instagram, government forms, university uploads, and everything in between — completely free, forever.</p>
+        </div>
+        <div class="story-stats">
+          <div class="stat-box">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Free Forever</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Server Uploads</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Smart Presets</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Formats Supported</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   </main>
+
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <span class="logo">CompressFor</span>
@@ -221,6 +326,24 @@
 
   <script src="script.js"></script>
   <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('compressfor-theme', isDark ? 'dark' : 'light');
+    }
+
+    (function() {
+      const saved = localStorage.getItem('compressfor-theme');
+      if (saved === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.addEventListener('DOMContentLoaded', () => {
+          const btn = document.getElementById('themeToggle');
+          if (btn) btn.textContent = '☀️';
+        });
+      }
+    })();
+
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'en',
@@ -231,24 +354,6 @@
     }
   </script>
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<script>
-  function toggleTheme() {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
-    localStorage.setItem('compressfor-theme', isDark ? 'dark' : 'light');
-  }
 
-  (function() {
-    const saved = localStorage.getItem('compressfor-theme');
-    if (saved === 'dark') {
-      document.body.classList.add('dark-mode');
-      document.addEventListener('DOMContentLoaded', () => {
-        const btn = document.getElementById('themeToggle');
-        if (btn) btn.textContent = '☀️';
-      });
-    }
-  })();
-</script>
 </body>
 </html>
