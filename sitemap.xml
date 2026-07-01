@@ -3,58 +3,58 @@
 
   <url>
     <loc>https://www.compressfor.com/</loc>
-    <lastmod>2025-06-29</lastmod>
+    <lastmod>2025-06-30</lastmod>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
   </url>
 
   <url>
     <loc>https://www.compressfor.com/blog.html</loc>
-    <lastmod>2025-06-29</lastmod>
+    <lastmod>2025-06-30</lastmod>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
 
   <url>
     <loc>https://www.compressfor.com/contact.html</loc>
-    <lastmod>2025-06-29</lastmod>
+    <lastmod>2025-06-30</lastmod>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
     <loc>https://www.compressfor.com/blog-image-compressor.html</loc>
-    <lastmod>2025-06-29</lastmod>
+    <lastmod>2025-06-30</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
     <loc>https://www.compressfor.com/blog-image-size-compressor.html</loc>
-    <lastmod>2025-06-29</lastmod>
+    <lastmod>2025-06-30</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
     <loc>https://www.compressfor.com/blog-size-compressor.html</loc>
-    <lastmod>2025-06-29</lastmod>
+    <lastmod>2025-06-30</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
     <loc>https://www.compressfor.com/blog-photo-compressor.html</loc>
-    <lastmod>2025-06-29</lastmod>
+    <lastmod>2025-06-30</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
-<url>
-  <loc>https://www.compressfor.com/blog-compress-image-50kb.html</loc>
-  <lastmod>2025-06-30</lastmod>
-  <priority>0.9</priority>
-  <changefreq>monthly</changefreq>
-</url>
+  <url>
+    <loc>https://www.compressfor.com/blog-compress-image-50kb.html</loc>
+    <lastmod>2025-06-30</lastmod>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 
 </urlset>
