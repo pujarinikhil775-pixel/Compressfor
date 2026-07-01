@@ -73,11 +73,13 @@ a { text-decoration: none; color: inherit; }
   margin-bottom: 1.2rem;
 }
 
-.hero h1 span { color: #aaa; }
+.hero h1 span { color: #777
+; }
 
 .hero p {
   font-size: 1.1rem;
-  color: #aaa;
+  color: #777
+;
   max-width: 560px;
   margin: 0 auto 2rem;
 }
@@ -173,7 +175,8 @@ a { text-decoration: none; color: inherit; }
 
 .upload-sub {
   font-size: 0.9rem;
-  color: #888;
+  color: #666
+;
 }
 
 /* ===== CONTROLS ===== */
@@ -392,7 +395,8 @@ a { text-decoration: none; color: inherit; }
 }
 
 .preset-card.selected p,
-.preset-card.selected .preset-tag { color: #aaa; }
+.preset-card.selected .preset-tag { color: #777
+; }
 
 .preset-icon {
   font-size: 2rem;
@@ -415,7 +419,8 @@ a { text-decoration: none; color: inherit; }
 .preset-tag {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #888;
+  color: #666
+;
   background: #f0f0f0;
   padding: 0.25rem 0.7rem;
   border-radius: 999px;
@@ -486,7 +491,8 @@ a { text-decoration: none; color: inherit; }
 }
 
 .footer p {
-  color: #888;
+  color: #666
+;
   font-size: 0.9rem;
   margin-bottom: 0.4rem;
 }
@@ -568,7 +574,8 @@ body.dark-mode .logo {
 }
 
 body.dark-mode .nav-links a {
-  color: #aaa;
+  color: #777
+;
 }
 
 body.dark-mode .nav-links a:hover {
@@ -593,7 +600,7 @@ body.dark-mode .tab-buttons {
 }
 
 body.dark-mode .tab-btn {
-  color: #999;
+   color: #666;
 }
 
 body.dark-mode .tab-btn.active {
@@ -616,7 +623,8 @@ body.dark-mode .upload-title {
 }
 
 body.dark-mode .upload-sub {
-  color: #888;
+  color: #666
+;
 }
 
 body.dark-mode .controls {
@@ -663,7 +671,7 @@ body.dark-mode .result-name {
 }
 
 body.dark-mode .result-sizes {
-  color: #999;
+   color: #666;
 }
 
 body.dark-mode .result-saving {
@@ -708,12 +716,13 @@ body.dark-mode .preset-card.selected h3 {
 }
 
 body.dark-mode .preset-card p {
-  color: #999;
+   color: #666;
 }
 
 body.dark-mode .preset-tag {
   background: #2a2a2a;
-  color: #aaa;
+  color: #777
+;
 }
 
 body.dark-mode .how-section {
@@ -733,7 +742,7 @@ body.dark-mode .step h4 {
 }
 
 body.dark-mode .step p {
-  color: #999;
+   color: #666;
 }
 
 body.dark-mode .step-num {
@@ -910,7 +919,8 @@ body.dark-mode .progress-bar {
 
 .stat-label {
   font-size: 0.85rem;
-  color: #aaa;
+  color: #777
+;
   font-weight: 500;
 }
 
@@ -933,7 +943,7 @@ body.dark-mode .faq-item h3 {
 }
 
 body.dark-mode .faq-item p {
-  color: #999;
+   color: #666;
 }
 
 body.dark-mode .story-section {
@@ -945,7 +955,7 @@ body.dark-mode .story-content h2 {
 }
 
 body.dark-mode .story-content p {
-  color: #999;
+   color: #666;
 }
 
 body.dark-mode .stat-box {
