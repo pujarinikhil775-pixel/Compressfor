@@ -241,7 +241,13 @@ function applyPreset(name) {
     `Upload images for ${PRESETS[name].label} preset`;
   document.getElementById('presetResults').innerHTML = '';
   presetFiles = [];
+  setTimeout(() => {
+  setTimeout(() => {
+  setTimeout(() => {
   zone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}, 100);
+}, 100);
+}, 100);
 }
 
 function handlePresetDrop(e) {
