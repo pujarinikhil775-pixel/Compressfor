@@ -112,24 +112,50 @@
             onchange="handleCompressFiles(this.files)" hidden/>
         </div>
         <div class="controls" id="compressControls" style="display:none">
-          <div class="control-row">
-            <label>Quality: <span id="qualityValue">80</span>%</label>
-            <input type="range" id="qualitySlider" min="1" max="100" value="80"
-              oninput="document.getElementById('qualityValue').textContent=this.value"/>
-          </div>
-          <div class="control-row">
-            <label>Output Format:</label>
-            <select id="outputFormat">
-              <option value="jpeg">JPG</option>
-              <option value="png">PNG</option>
-              <option value="webp">WebP</option>
-            </select>
-          </div>
-          <div class="btn-row">
-            <button class="btn-primary" onclick="compressAll()">Compress All</button>
-            <button class="btn-secondary" onclick="clearCompress()">Clear</button>
-          </div>
-        </div>
+  <div class="control-row">
+    <label>Quality: <span id="qualityValue">80</span>%</label>
+    <input type="range" id="qualitySlider" min="1" max="100" value="80"
+      oninput="document.getElementById('qualityValue').textContent=this.value"/>
+  </div>
+  <div class="control-row">
+    <label>Output Format:</label>
+    <select id="outputFormat">
+      <option value="jpeg">JPG</option>
+      <option value="png">PNG</option>
+      <option value="webp">WebP</option>
+    </select>
+  </div>
+
+  <!-- TARGET KB FEATURE -->
+  <div class="target-kb-section">
+    <div class="target-kb-header">
+      <label class="target-kb-label">
+        <input type="checkbox" id="targetKbEnabled" onchange="toggleTargetKb()"/>
+        Compress to exact file size
+      </label>
+    </div>
+    <div class="target-kb-controls" id="targetKbControls" style="display:none">
+      <div class="target-kb-presets">
+        <button class="kb-preset-btn" onclick="setTargetKb(20)">20 KB</button>
+        <button class="kb-preset-btn" onclick="setTargetKb(50)">50 KB</button>
+        <button class="kb-preset-btn" onclick="setTargetKb(100)">100 KB</button>
+        <button class="kb-preset-btn" onclick="setTargetKb(200)">200 KB</button>
+        <button class="kb-preset-btn" onclick="setTargetKb(500)">500 KB</button>
+        <button class="kb-preset-btn" onclick="setTargetKb(1024)">1 MB</button>
+      </div>
+      <div class="target-kb-input-row">
+        <span>Or type exact size:</span>
+        <input type="number" id="targetKbValue" placeholder="e.g. 50" min="1" max="10000"/>
+        <span>KB</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" onclick="compressAll()">Compress All</button>
+    <button class="btn-secondary" onclick="clearCompress()">Clear</button>
+  </div>
+</div>
         <div class="results" id="compressResults"></div>
       </div>
 

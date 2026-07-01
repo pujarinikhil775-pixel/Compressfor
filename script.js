@@ -8,6 +8,108 @@ function switchTab(tab) {
   });
 }
 
+// ===== TARGET KB FEATURE =====
+function toggleTargetKb() {
+  const enabled = document.getElementById('targetKbEnabled').checked;
+  const controls = document.getElementById('targetKbControls');
+  const qualityRow = document.getElementById('qualitySlider').closest('.control-row');
+  controls.style.display = enabled ? 'flex' : 'none';
+  qualityRow.style.opacity = enabled ? '0.4' : '1';
+  qualityRow.style.pointerEvents = enabled ? 'none' : 'auto';
+}
+
+function setTargetKb(kb) {
+  document.getElementById('targetKbValue').value = kb;
+  document.querySelectorAll('.kb-preset-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.textContent.trim() === kb + ' KB' ||
+        btn.textContent.trim() === '1 MB' && kb === 1024) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+async function compressToTargetSize(file, targetKB, format) {
+  const targetBytes = targetKB * 1024;
+  const mimeType = format === 'png' ? 'image/png'
+    : format === 'webp' ? 'image/webp' : 'image/jpeg';
+
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = async () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+
+      // Binary search for the right quality
+      let low = 0.01;
+      let high = 1.0;
+      let best = null;
+      let attempts = 0;
+
+      while (attempts < 20) {
+        const mid = (low + high) / 2;
+        const blob = await canvasToBlob(canvas, mimeType, mid);
+
+        if (!blob) break;
+
+        if (Math.abs(blob.size - targetBytes) < targetBytes * 0.05) {
+          best = blob;
+          break;
+        }
+
+        if (blob.size > targetBytes) {
+          high = mid;
+        } else {
+          low = mid;
+          best = blob;
+        }
+        attempts++;
+      }
+
+      // If still too large, reduce dimensions
+      if (!best || best.size > targetBytes * 1.1) {
+        let scale = 0.9;
+        let w = img.width;
+        let h = img.height;
+
+        while (scale > 0.1) {
+          const c2 = document.createElement('canvas');
+          c2.width = Math.round(w * scale);
+          c2.height = Math.round(h * scale);
+          const ctx2 = c2.getContext('2d');
+          ctx2.fillStyle = '#ffffff';
+          ctx2.fillRect(0, 0, c2.width, c2.height);
+          ctx2.drawImage(img, 0, 0, c2.width, c2.height);
+          const blob2 = await canvasToBlob(c2, mimeType, 0.7);
+          if (blob2 && blob2.size <= targetBytes * 1.05) {
+            best = blob2;
+            break;
+          }
+          scale -= 0.1;
+        }
+      }
+
+      if (best) resolve(best);
+      else reject(new Error('Could not compress to target size'));
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+function canvasToBlob(canvas, mimeType, quality) {
+  return new Promise(resolve => {
+    canvas.toBlob(blob => resolve(blob), mimeType, quality);
+  });
+}
+
 // ===== COMPRESS TAB =====
 let compressFiles = [];
 
@@ -25,8 +127,6 @@ function loadCompressFiles(files) {
   compressFiles = files;
   if (files.length === 0) return;
   document.getElementById('compressControls').style.display = 'flex';
-
-  // Set default quality to 80
   document.getElementById('qualitySlider').value = 80;
   document.getElementById('qualityValue').textContent = 80;
 
@@ -54,9 +154,16 @@ async function compressAll() {
     return;
   }
 
+  const targetKbEnabled = document.getElementById('targetKbEnabled').checked;
+  const targetKbValue = parseInt(document.getElementById('targetKbValue').value);
   const quality = parseInt(document.getElementById('qualitySlider').value) / 100;
   const format = document.getElementById('outputFormat').value;
   const cards = document.querySelectorAll('#compressResults .result-card');
+
+  if (targetKbEnabled && (!targetKbValue || targetKbValue < 1)) {
+    alert('Please enter a valid target size in KB!');
+    return;
+  }
 
   for (let i = 0; i < compressFiles.length; i++) {
     const file = compressFiles[i];
@@ -65,31 +172,34 @@ async function compressAll() {
     const info = card.querySelector('.result-sizes');
     const status = card.querySelector('span');
 
-    status.textContent = 'Compressing...';
-    bar.style.width = '40%';
+    status.textContent = targetKbEnabled ? `Targeting ${targetKbValue}KB...` : 'Compressing...';
+    bar.style.width = '30%';
 
     try {
-      const blob = await compressImage(file, quality, format);
+      let blob;
+
+      if (targetKbEnabled) {
+        bar.style.width = '60%';
+        blob = await compressToTargetSize(file, targetKbValue, format);
+      } else {
+        blob = await compressImage(file, quality, format);
+      }
+
       bar.style.width = '100%';
 
       const saving = Math.round((1 - blob.size / file.size) * 100);
-
-      let savingText = '';
+      let savingText = saving > 0 ? `↓ ${saving}% smaller` : 'Optimized';
       let savingColor = '#000';
-      if (saving > 0) {
-        savingText = `↓ ${saving}% smaller`;
-        savingColor = '#000';
-      } else if (saving === 0) {
-        savingText = 'Already optimized';
-        savingColor = '#888';
-      } else {
-        savingText = 'Try lower quality';
-        savingColor = '#e00';
+
+      if (targetKbEnabled) {
+        const resultKB = Math.round(blob.size / 1024);
+        savingText = `${resultKB}KB achieved`;
+        savingColor = resultKB <= targetKbValue ? '#000' : '#888';
       }
 
       info.innerHTML = `
         Original: ${formatSize(file.size)} →
-        Compressed: ${formatSize(blob.size)}
+        Result: ${formatSize(blob.size)}
         <span class="result-saving" style="background:${savingColor}">${savingText}</span>
       `;
 
@@ -123,12 +233,8 @@ function compressImage(file, quality, format) {
         : format === 'webp' ? 'image/webp' : 'image/jpeg';
       canvas.toBlob(blob => {
         if (blob) {
-          // Never return larger than original
-          if (blob.size >= file.size) {
-            resolve(file);
-          } else {
-            resolve(blob);
-          }
+          if (blob.size >= file.size) resolve(file);
+          else resolve(blob);
         } else {
           reject(new Error('Compression failed'));
         }
@@ -145,6 +251,10 @@ function clearCompress() {
   document.getElementById('compressResults').innerHTML = '';
   document.getElementById('compressControls').style.display = 'none';
   document.getElementById('compressInput').value = '';
+  document.getElementById('targetKbEnabled').checked = false;
+  document.getElementById('targetKbControls').style.display = 'none';
+  document.getElementById('targetKbValue').value = '';
+  document.querySelectorAll('.kb-preset-btn').forEach(btn => btn.classList.remove('active'));
 }
 
 // ===== CONVERT TAB =====
@@ -242,12 +352,8 @@ function applyPreset(name) {
   document.getElementById('presetResults').innerHTML = '';
   presetFiles = [];
   setTimeout(() => {
-  setTimeout(() => {
-  setTimeout(() => {
-  zone.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}, 100);
-}, 100);
-}, 100);
+    zone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
 }
 
 function handlePresetDrop(e) {
