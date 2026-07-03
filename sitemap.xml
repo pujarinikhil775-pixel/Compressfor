@@ -57,4 +57,11 @@
     <changefreq>monthly</changefreq>
   </url>
 
+<url>
+  <loc>https://www.compressfor.com/blog-compress-image-100kb.html</loc>
+  <lastmod>2025-07-01</lastmod>
+  <priority>0.9</priority>
+  <changefreq>monthly</changefreq>
+</url>
+
 </urlset>
