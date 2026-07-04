@@ -466,8 +466,10 @@ function getSelfieSegmentation() {
     selfieSegmentation = new SelfieSegmentation({
       locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`
     });
-    // modelSelection 1 = "landscape" model — more accurate for close-up head/shoulder shots
-    selfieSegmentation.setOptions({ modelSelection: 1 });
+    // modelSelection 0 = "general" model — trained for close-up single-person
+    // portraits, much sharper for headshots than the "landscape" model (1),
+    // which is meant for wide group/landscape shots and is lower detail.
+    selfieSegmentation.setOptions({ modelSelection: 0 });
   }
   return selfieSegmentation;
 }
@@ -481,22 +483,49 @@ function removeBackgroundToWhite(imgEl) {
     try {
       const seg = getSelfieSegmentation();
       seg.onResults((results) => {
+        const w = results.image.width;
+        const h = results.image.height;
+
+        // STEP A — sharpen the mask edges. The raw mask is a soft, semi-
+        // transparent gradient at the boundary, which is what lets background
+        // color bleed through and create the greenish/gray halo around hair
+        // and glasses. Boosting contrast pushes low-confidence pixels toward
+        // solid black/white so the cutout edge is much cleaner.
+        const maskCanvas = document.createElement('canvas');
+        maskCanvas.width = w;
+        maskCanvas.height = h;
+        const maskCtx = maskCanvas.getContext('2d');
+        maskCtx.filter = 'contrast(260%) brightness(105%)';
+        maskCtx.drawImage(results.segmentationMask, 0, 0, w, h);
+        maskCtx.filter = 'none';
+
+        // STEP B — feather back in ~0.5px of blur so the now-hard edge
+        // doesn't look jagged/aliased once sharpened.
+        const featherCanvas = document.createElement('canvas');
+        featherCanvas.width = w;
+        featherCanvas.height = h;
+        const featherCtx = featherCanvas.getContext('2d');
+        featherCtx.filter = 'blur(0.6px)';
+        featherCtx.drawImage(maskCanvas, 0, 0);
+        featherCtx.filter = 'none';
+
+        // STEP C — composite the person (using the cleaned-up mask) onto
+        // solid white, at full source resolution with high-quality smoothing.
         const canvas = document.createElement('canvas');
-        canvas.width = results.image.width;
-        canvas.height = results.image.height;
+        canvas.width = w;
+        canvas.height = h;
         const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
 
         ctx.save();
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // 1. Draw the person/background probability mask
-        ctx.drawImage(results.segmentationMask, 0, 0, canvas.width, canvas.height);
-        // 2. Keep only the pixels the mask marked as "person"
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(featherCanvas, 0, 0, w, h);
         ctx.globalCompositeOperation = 'source-in';
-        ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
-        // 3. Fill everything else with solid white, behind the cut-out person
+        ctx.drawImage(results.image, 0, 0, w, h);
         ctx.globalCompositeOperation = 'destination-over';
         ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, w, h);
         ctx.restore();
 
         resolve(canvas);
@@ -552,6 +581,8 @@ async function processPassportPhoto(file) {
       canvas.width = targetW;
       canvas.height = targetH;
       const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, targetW, targetH);
 
@@ -598,6 +629,7 @@ async function processPassportPhoto(file) {
               <p>Resolution: <strong>300 DPI — Print Quality</strong></p>
               <p>File size: <strong>${sizeKB} KB</strong></p>
               <p>Background: <strong>Pure White (auto-removed)</strong></p>
+              <p style="font-size:0.82rem;color:#888;margin-top:0.5rem">Zoom in and check the edges around your hair before submitting — AI background removal is very good but not always perfect on every strand.</p>
               <div class="passport-actions">
                 <a class="result-download" href="${resultUrl}" download="${fileName}">Download Photo</a>
                 <button class="btn-secondary" onclick="resetPassport()">Convert Another</button>
