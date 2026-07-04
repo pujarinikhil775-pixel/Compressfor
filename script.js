@@ -449,3 +449,118 @@ function formatSize(bytes) {
   if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
   return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
 }
+
+// ===== PASSPORT SIZE FEATURE =====
+let passportWidth = 35;
+let passportHeight = 45;
+let passportLabel = 'India 35x45mm';
+
+// Passport size standards in mm — converted to pixels at 300 DPI
+// 1mm = 11.811 pixels at 300 DPI
+const MM_TO_PX = 11.811;
+
+function selectPassport(btn, w, h, label) {
+  document.querySelectorAll('.passport-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  passportWidth = w;
+  passportHeight = h;
+  passportLabel = label + ' ' + w + 'x' + h + 'mm';
+  document.getElementById('passportLabel').textContent = passportLabel;
+}
+
+function handlePassportDrop(e) {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    processPassportPhoto(file);
+  }
+}
+
+function handlePassportFile(files) {
+  if (files[0]) processPassportPhoto(files[0]);
+}
+
+function processPassportPhoto(file) {
+  const resultDiv = document.getElementById('passportResult');
+  resultDiv.innerHTML = '<div class="passport-processing">Processing your photo...</div>';
+
+  const img = new Image();
+  const url = URL.createObjectURL(file);
+
+  img.onload = () => {
+    // Convert mm to pixels at 300 DPI for print quality
+    const targetW = Math.round(passportWidth * MM_TO_PX);
+    const targetH = Math.round(passportHeight * MM_TO_PX);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = targetW;
+    canvas.height = targetH;
+    const ctx = canvas.getContext('2d');
+
+    // White background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, targetW, targetH);
+
+    // Smart crop — center the image
+    const imgAspect = img.width / img.height;
+    const targetAspect = targetW / targetH;
+
+    let sx, sy, sw, sh;
+
+    if (imgAspect > targetAspect) {
+      // Image is wider — crop sides
+      sh = img.height;
+      sw = img.height * targetAspect;
+      sx = (img.width - sw) / 2;
+      sy = 0;
+    } else {
+      // Image is taller — crop top and bottom
+      sw = img.width;
+      sh = img.width / targetAspect;
+      sx = 0;
+      sy = (img.height - sh) / 2;
+    }
+
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, targetW, targetH);
+    URL.revokeObjectURL(url);
+
+    // Convert to blob and show result
+    canvas.toBlob(blob => {
+      const resultUrl = URL.createObjectURL(blob);
+      const sizeKB = Math.round(blob.size / 1024);
+      const fileName = 'passport_' + passportWidth + 'x' + passportHeight + 'mm.jpg';
+
+      resultDiv.innerHTML = `
+        <div class="passport-result-card">
+          <div class="passport-preview-wrap">
+            <img src="${resultUrl}" class="passport-preview" alt="Passport photo"/>
+            <div class="passport-dimensions">${passportWidth}mm × ${passportHeight}mm</div>
+          </div>
+          <div class="passport-result-info">
+            <h3>Your Passport Photo is Ready</h3>
+            <p>Standard: <strong>${passportLabel}</strong></p>
+            <p>Dimensions: <strong>${Math.round(passportWidth * MM_TO_PX)} × ${Math.round(passportHeight * MM_TO_PX)} pixels</strong></p>
+            <p>Resolution: <strong>300 DPI — Print Quality</strong></p>
+            <p>File size: <strong>${sizeKB} KB</strong></p>
+            <p>Format: <strong>JPG — White Background</strong></p>
+            <div class="passport-actions">
+              <a class="result-download" href="${resultUrl}" download="${fileName}">Download Photo</a>
+              <button class="btn-secondary" onclick="resetPassport()">Convert Another</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }, 'image/jpeg', 0.95);
+  };
+
+  img.onerror = () => {
+    resultDiv.innerHTML = '<p style="color:red;text-align:center">Error loading image. Please try another file.</p>';
+  };
+
+  img.src = url;
+}
+
+function resetPassport() {
+  document.getElementById('passportResult').innerHTML = '';
+  document.getElementById('passportInput').value = '';
+}

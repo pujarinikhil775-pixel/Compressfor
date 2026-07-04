@@ -92,13 +92,12 @@
 
   <!-- TABS -->
   <section class="tabs-section" id="compress">
-    <div class="container">
-      <div class="tab-buttons">
-        <button class="tab-btn active" onclick="switchTab('compress')">Compress</button>
-        <button class="tab-btn" onclick="switchTab('presets')">Presets</button>
-        <button class="tab-btn" onclick="switchTab('convert')">Convert</button>
-      </div>
-
+    <div class="tab-buttons">
+  <button class="tab-btn active" onclick="switchTab('compress')">Compress</button>
+  <button class="tab-btn" onclick="switchTab('presets')">Presets</button>
+  <button class="tab-btn" onclick="switchTab('convert')">Convert</button>
+  <button class="tab-btn" onclick="switchTab('passport')">Passport Size</button>
+</div>
       <!-- COMPRESS TAB -->
       <div class="tab-content active" id="tab-compress">
         <div class="upload-zone" id="compressDropZone"
@@ -242,6 +241,79 @@
         <div class="results" id="convertResults"></div>
       </div>
 
+      <!-- PASSPORT SIZE TAB -->
+<div class="tab-content" id="tab-passport">
+
+  <div class="passport-intro">
+    <p class="upload-title">Convert Any Photo to Passport Size</p>
+    <p class="upload-sub">Choose your country standard — we crop and resize automatically</p>
+  </div>
+
+  <!-- Country Standards -->
+  <div class="passport-standards">
+    <button class="passport-btn active" onclick="selectPassport(this, 35, 45, 'India')" data-label="India 35x45mm">
+      🇮🇳 India
+      <span>35 x 45 mm</span>
+    </button>
+    <button class="passport-btn" onclick="selectPassport(this, 51, 51, 'US')" data-label="US 2x2 inch">
+      🇺🇸 USA
+      <span>51 x 51 mm</span>
+    </button>
+    <button class="passport-btn" onclick="selectPassport(this, 35, 45, 'UK')" data-label="UK 35x45mm">
+      🇬🇧 UK
+      <span>35 x 45 mm</span>
+    </button>
+    <button class="passport-btn" onclick="selectPassport(this, 35, 45, 'Europe')" data-label="Europe 35x45mm">
+      🇪🇺 Europe
+      <span>35 x 45 mm</span>
+    </button>
+    <button class="passport-btn" onclick="selectPassport(this, 33, 48, 'China')" data-label="China 33x48mm">
+      🇨🇳 China
+      <span>33 x 48 mm</span>
+    </button>
+    <button class="passport-btn" onclick="selectPassport(this, 40, 60, 'Visa')" data-label="Visa 40x60mm">
+      🌐 Visa
+      <span>40 x 60 mm</span>
+    </button>
+  </div>
+
+  <!-- Selected Standard Info -->
+  <div class="passport-selected-info" id="passportInfo">
+    Selected: <strong id="passportLabel">India 35x45mm</strong>
+  </div>
+
+  <!-- Upload Zone -->
+  <div class="upload-zone" id="passportDropZone"
+    ondragover="event.preventDefault()"
+    ondrop="handlePassportDrop(event)"
+    onclick="document.getElementById('passportInput').click()">
+    <div class="upload-icon">🪪</div>
+    <p class="upload-title">Upload Your Photo</p>
+    <p class="upload-sub">JPG, PNG, WebP supported — face should be clearly visible</p>
+    <input type="file" id="passportInput" accept="image/*"
+      onchange="handlePassportFile(this.files)" hidden/>
+  </div>
+
+  <!-- Tips -->
+  <div class="passport-tips">
+    <div class="tip-card">
+      <span>💡</span>
+      <p>For best results use a photo with a plain white or light background</p>
+    </div>
+    <div class="tip-card">
+      <span>📐</span>
+      <p>Face should take up 70-80% of the frame for official passport requirements</p>
+    </div>
+    <div class="tip-card">
+      <span>📱</span>
+      <p>Works on mobile — take a photo directly and convert instantly</p>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div id="passportResult"></div>
+
+</div>
     </div>
   </section>
 
