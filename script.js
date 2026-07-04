@@ -450,7 +450,7 @@ function formatSize(bytes) {
   return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
 }
 
-// ===== PASSPORT SIZE FEATURE =====
+// ===== PASSPORT SIZE FEATURE (automatic white background + resize) =====
 let passportWidth = 35;
 let passportHeight = 45;
 let passportLabel = 'India 35x45mm';
@@ -458,6 +458,55 @@ let passportLabel = 'India 35x45mm';
 // Passport size standards in mm — converted to pixels at 300 DPI
 // 1mm = 11.811 pixels at 300 DPI
 const MM_TO_PX = 11.811;
+
+// Lazily create ONE segmentation instance and reuse it for every photo
+let selfieSegmentation = null;
+function getSelfieSegmentation() {
+  if (!selfieSegmentation) {
+    selfieSegmentation = new SelfieSegmentation({
+      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`
+    });
+    // modelSelection 1 = "landscape" model — more accurate for close-up head/shoulder shots
+    selfieSegmentation.setOptions({ modelSelection: 1 });
+  }
+  return selfieSegmentation;
+}
+
+// Runs the photo through on-device segmentation and returns a canvas
+// with the person cut out and composited onto a solid white background.
+// The image never leaves the browser — only the (public, open-source)
+// model file is fetched once from the CDN.
+function removeBackgroundToWhite(imgEl) {
+  return new Promise((resolve, reject) => {
+    try {
+      const seg = getSelfieSegmentation();
+      seg.onResults((results) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = results.image.width;
+        canvas.height = results.image.height;
+        const ctx = canvas.getContext('2d');
+
+        ctx.save();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // 1. Draw the person/background probability mask
+        ctx.drawImage(results.segmentationMask, 0, 0, canvas.width, canvas.height);
+        // 2. Keep only the pixels the mask marked as "person"
+        ctx.globalCompositeOperation = 'source-in';
+        ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+        // 3. Fill everything else with solid white, behind the cut-out person
+        ctx.globalCompositeOperation = 'destination-over';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.restore();
+
+        resolve(canvas);
+      });
+      seg.send({ image: imgEl });
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
 
 function selectPassport(btn, w, h, label) {
   document.querySelectorAll('.passport-btn').forEach(b => b.classList.remove('active'));
@@ -480,77 +529,88 @@ function handlePassportFile(files) {
   if (files[0]) processPassportPhoto(files[0]);
 }
 
-function processPassportPhoto(file) {
+async function processPassportPhoto(file) {
   const resultDiv = document.getElementById('passportResult');
-  resultDiv.innerHTML = '<div class="passport-processing">Processing your photo...</div>';
+  resultDiv.innerHTML = '<div class="passport-processing">Removing background…</div>';
 
   const img = new Image();
   const url = URL.createObjectURL(file);
 
-  img.onload = () => {
-    // Convert mm to pixels at 300 DPI for print quality
-    const targetW = Math.round(passportWidth * MM_TO_PX);
-    const targetH = Math.round(passportHeight * MM_TO_PX);
+  img.onload = async () => {
+    try {
+      // STEP 1 — cut the person out and place them on a true white background
+      const whiteBgCanvas = await removeBackgroundToWhite(img);
+      URL.revokeObjectURL(url);
 
-    const canvas = document.createElement('canvas');
-    canvas.width = targetW;
-    canvas.height = targetH;
-    const ctx = canvas.getContext('2d');
+      resultDiv.innerHTML = '<div class="passport-processing">Resizing to passport size…</div>';
 
-    // White background
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, targetW, targetH);
+      // STEP 2 — crop + resize to the exact passport standard at 300 DPI
+      const targetW = Math.round(passportWidth * MM_TO_PX);
+      const targetH = Math.round(passportHeight * MM_TO_PX);
 
-    // Smart crop — center the image
-    const imgAspect = img.width / img.height;
-    const targetAspect = targetW / targetH;
+      const canvas = document.createElement('canvas');
+      canvas.width = targetW;
+      canvas.height = targetH;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, targetW, targetH);
 
-    let sx, sy, sw, sh;
+      const srcW = whiteBgCanvas.width;
+      const srcH = whiteBgCanvas.height;
+      const imgAspect = srcW / srcH;
+      const targetAspect = targetW / targetH;
 
-    if (imgAspect > targetAspect) {
-      // Image is wider — crop sides
-      sh = img.height;
-      sw = img.height * targetAspect;
-      sx = (img.width - sw) / 2;
-      sy = 0;
-    } else {
-      // Image is taller — crop top and bottom
-      sw = img.width;
-      sh = img.width / targetAspect;
-      sx = 0;
-      sy = (img.height - sh) / 2;
-    }
+      let sx, sy, sw, sh;
+      if (imgAspect > targetAspect) {
+        // Source is wider than target — crop the sides evenly
+        sh = srcH;
+        sw = srcH * targetAspect;
+        sx = (srcW - sw) / 2;
+        sy = 0;
+      } else {
+        // Source is taller than target — crop top/bottom
+        sw = srcW;
+        sh = srcW / targetAspect;
+        sx = 0;
+        // Bias the crop toward the top third instead of dead-center.
+        // Selfies usually have empty space above the head — a plain
+        // center crop wastes it and can cut off the chin instead.
+        sy = Math.max(0, (srcH - sh) * 0.28);
+      }
 
-    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, targetW, targetH);
-    URL.revokeObjectURL(url);
+      ctx.drawImage(whiteBgCanvas, sx, sy, sw, sh, 0, 0, targetW, targetH);
 
-    // Convert to blob and show result
-    canvas.toBlob(blob => {
-      const resultUrl = URL.createObjectURL(blob);
-      const sizeKB = Math.round(blob.size / 1024);
-      const fileName = 'passport_' + passportWidth + 'x' + passportHeight + 'mm.jpg';
+      canvas.toBlob(blob => {
+        const resultUrl = URL.createObjectURL(blob);
+        const sizeKB = Math.round(blob.size / 1024);
+        const fileName = 'passport_' + passportWidth + 'x' + passportHeight + 'mm.jpg';
 
-      resultDiv.innerHTML = `
-        <div class="passport-result-card">
-          <div class="passport-preview-wrap">
-            <img src="${resultUrl}" class="passport-preview" alt="Passport photo"/>
-            <div class="passport-dimensions">${passportWidth}mm × ${passportHeight}mm</div>
-          </div>
-          <div class="passport-result-info">
-            <h3>Your Passport Photo is Ready</h3>
-            <p>Standard: <strong>${passportLabel}</strong></p>
-            <p>Dimensions: <strong>${Math.round(passportWidth * MM_TO_PX)} × ${Math.round(passportHeight * MM_TO_PX)} pixels</strong></p>
-            <p>Resolution: <strong>300 DPI — Print Quality</strong></p>
-            <p>File size: <strong>${sizeKB} KB</strong></p>
-            <p>Format: <strong>JPG — White Background</strong></p>
-            <div class="passport-actions">
-              <a class="result-download" href="${resultUrl}" download="${fileName}">Download Photo</a>
-              <button class="btn-secondary" onclick="resetPassport()">Convert Another</button>
+        resultDiv.innerHTML = `
+          <div class="passport-result-card">
+            <div class="passport-preview-wrap">
+              <img src="${resultUrl}" class="passport-preview" alt="Passport photo"/>
+              <div class="passport-dimensions">${passportWidth}mm × ${passportHeight}mm</div>
+            </div>
+            <div class="passport-result-info">
+              <h3>Your Passport Photo is Ready</h3>
+              <p>Standard: <strong>${passportLabel}</strong></p>
+              <p>Dimensions: <strong>${targetW} × ${targetH} pixels</strong></p>
+              <p>Resolution: <strong>300 DPI — Print Quality</strong></p>
+              <p>File size: <strong>${sizeKB} KB</strong></p>
+              <p>Background: <strong>Pure White (auto-removed)</strong></p>
+              <div class="passport-actions">
+                <a class="result-download" href="${resultUrl}" download="${fileName}">Download Photo</a>
+                <button class="btn-secondary" onclick="resetPassport()">Convert Another</button>
+              </div>
             </div>
           </div>
-        </div>
-      `;
-    }, 'image/jpeg', 0.95);
+        `;
+      }, 'image/jpeg', 0.95);
+
+    } catch (err) {
+      console.error(err);
+      resultDiv.innerHTML = '<p style="color:red;text-align:center">Could not process this photo. Please try a clearer, well-lit photo facing the camera.</p>';
+    }
   };
 
   img.onerror = () => {
