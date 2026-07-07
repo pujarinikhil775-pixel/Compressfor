@@ -1370,3 +1370,19 @@ body.dark-mode .passport-selected-info {
     font-size: 0.85rem;
   }
 }
+.related-tools .tool-pill {
+  border: 1.5px solid #fff;
+  border-radius: 999px;
+  padding: 0.6rem 1.4rem;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.related-tools .tool-pill:hover {
+  background: #fff;
+  color: #000;
+}
