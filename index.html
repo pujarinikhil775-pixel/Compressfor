@@ -123,12 +123,12 @@
         <div class="controls" id="compressControls">
   <div class="control-row">
     <label>Quality: <span id="qualityValue">80</span>%</label>
-    <input type="range" id="qualitySlider" min="1" max="100" value="80"
+    <input type="range" id="qualitySlider" min="1" max="100" value="80" aria-label="Image quality percentage" oninput="document.getElementById('qualityValue').textContent=this.value"/>
       oninput="document.getElementById('qualityValue').textContent=this.value"/>
   </div>
   <div class="control-row">
     <label>Output Format:</label>
-    <select id="outputFormat">
+    <select id="outputFormat" aria-label="Output image format"></select>
       <option value="jpeg">JPG</option>
       <option value="png">PNG</option>
       <option value="webp">WebP</option>
@@ -154,7 +154,7 @@
       </div>
       <div class="target-kb-input-row">
         <span>Or type exact size:</span>
-        <input type="number" id="targetKbValue" placeholder="e.g. 50" min="1" max="10000"/>
+        <input type="number" id="targetKbValue" placeholder="e.g. 50" min="1" max="10000" aria-label="Target file size in kilobytes"/>
         <span>KB</span>
       </div>
     </div>
@@ -344,17 +344,17 @@
       <h2>How It Works</h2>
       <div class="steps-grid">
         <div class="step">
-          <div class="step-num">01</div>
+          <div class="step-num" aria-hidden="true">01</div>
           <h3>Upload Your Image</h3>
           <p>Drag & drop or click to upload your images. Supports JPG, PNG, WebP, GIF.</p>
         </div>
         <div class="step">
-          <div class="step-num">02</div>
+          <div class="step-num" aria-hidden="true">02</div>
           <h3>Choose Your Settings</h3>
           <p>Pick a preset like Instagram or Government, or set your own quality and format.</p>
         </div>
         <div class="step">
-          <div class="step-num">03</div>
+          <div class="step-num" aria-hidden="true">03</div>
           <h3>Download Instantly</h3>
           <p>Get your compressed or converted image instantly. No signup needed.</p>
         </div>
@@ -438,7 +438,7 @@
       <div class="story-wrap">
         <div class="story-content">
           <span class="story-tag">Our Story</span>
-          <h4>Why We Built CompressFor</h4>
+          <h2>Why We Built CompressFor</h2>
           <p>We were tired of uploading photos for government forms, university admissions, and Instagram posts only to get rejected because the file was "too large." Every tool out there either uploaded our private photos to unknown servers, added ugly watermarks, or asked us to sign up just to compress one image.</p>
           <p>So we built CompressFor a tool that works entirely in your browser. Your images never leave your device. No signup, no watermark, no limits. Just fast, free, reliable compression for whatever you need it for.</p>
           <p>Today, CompressFor helps people compress and convert images for Instagram, government forms, university uploads, and everything in between completely free, forever.</p>

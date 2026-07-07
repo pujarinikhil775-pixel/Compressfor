@@ -58,11 +58,11 @@
         <div class="controls" id="compressControls">
           <div class="control-row">
             <label>Quality: <span id="qualityValue">80</span>%</label>
-            <input type="range" id="qualitySlider" min="1" max="100" value="80" oninput="document.getElementById('qualityValue').textContent=this.value"/>
+            <input type="range" id="qualitySlider" min="1" max="100" value="80" aria-label="Image quality percentage" oninput="document.getElementById('qualityValue').textContent=this.value"/>
           </div>
           <div class="control-row">
             <label>Output Format:</label>
-            <select id="outputFormat">
+            <select id="outputFormat" aria-label="Output image format">
               <option value="jpeg">JPG</option>
               <option value="png">PNG</option>
               <option value="webp">WebP</option>
@@ -86,7 +86,7 @@
               </div>
               <div class="target-kb-input-row">
                 <span>Or type exact size:</span>
-                <input type="number" id="targetKbValue" placeholder="e.g. 50" min="1" max="10000"/>
+                <input type="number" id="targetKbValue" placeholder="e.g. 50" min="1" max="10000" aria-label="Target file size in kilobytes"/>
                 <span>KB</span>
               </div>
             </div>
@@ -158,7 +158,7 @@
         <div class="controls" id="convertControls" style="display:none">
           <div class="control-row">
             <label>Convert To:</label>
-            <select id="convertFormat">
+            <select id="convertFormat" aria-label="Convert to image format">
               <option value="jpeg">JPG</option>
               <option value="png">PNG</option>
               <option value="webp">WebP</option>
