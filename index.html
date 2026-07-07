@@ -121,14 +121,14 @@
             onchange="handleCompressFiles(this.files)" hidden/>
         </div>
         <div class="controls" id="compressControls">
+          
   <div class="control-row">
     <label>Quality: <span id="qualityValue">80</span>%</label>
-   <input type="range" id="qualitySlider" min="1" max="100" value="80" aria-label="Image quality percentage" oninput="document.getElementById('qualityValue').textContent=this.value"/>
-      oninput="document.getElementById('qualityValue').textContent=this.value"/>
+    <input type="range" id="qualitySlider" min="1" max="100" value="80" aria-label="Image quality percentage" oninput="document.getElementById('qualityValue').textContent=this.value"/>
   </div>
   <div class="control-row">
     <label>Output Format:</label>
-    <select id="outputFormat" aria-label="Output image format"></select>
+    <select id="outputFormat" aria-label="Output image format">
       <option value="jpeg">JPG</option>
       <option value="png">PNG</option>
       <option value="webp">WebP</option>
