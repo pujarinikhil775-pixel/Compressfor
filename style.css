@@ -1381,6 +1381,13 @@ body.dark-mode .passport-selected-info {
   transition: all 0.2s;
   display: inline-block;
 }
+.related-tools {
+  background: #000;
+}
+
+.related-tools h2 {
+  color: #fff;
+}
 
 .related-tools .tool-pill:hover {
   background: #fff;
