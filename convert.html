@@ -14,6 +14,7 @@
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://www.compressfor.com/convert.html"/>
   <link rel="stylesheet" href="style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/heic2any/dist/heic2any.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
@@ -52,8 +53,8 @@
         <div class="upload-zone" id="compressDropZone" ondragover="event.preventDefault()" ondrop="handleCompressDrop(event)" onclick="document.getElementById('compressInput').click()">
           <div class="upload-icon">↑</div>
           <p class="upload-title">Drag & Drop Images Here</p>
-          <p class="upload-sub">or click to browse — JPG, PNG, WebP, GIF supported</p>
-          <input type="file" id="compressInput" multiple accept="image/*" onchange="handleCompressFiles(this.files)" hidden/>
+          <p class="upload-sub">or click to browse — JPG, PNG, WebP, HEIC, AVIF supported</p>
+        <input type="file" id="convertInput" multiple accept="image/*,.heic,.heif,.avif" onchange="handleConvertFiles(this.files)" hidden/>
         </div>
         <div class="controls" id="compressControls">
           <div class="control-row">

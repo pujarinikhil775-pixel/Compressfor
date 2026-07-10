@@ -303,7 +303,9 @@ let convertFiles = [];
 
 function handleConvertDrop(e) {
   e.preventDefault();
-  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+  const files = Array.from(e.dataTransfer.files).filter(f =>
+    f.type.startsWith('image/') || isHeic(f) || /\.avif$/i.test(f.name)
+  );
   loadConvertFiles(files);
 }
 
@@ -320,11 +322,22 @@ function loadConvertFiles(files) {
   files.forEach(file => {
     const card = document.createElement('div');
     card.className = 'result-card';
+
+    const heic = isHeic(file);
+    // HEIC also can't be shown as a preview image by the browser — same root cause
+    const thumbHtml = heic
+      ? `<div class="result-thumb result-thumb-placeholder" aria-hidden="true">HEIC</div>`
+      : `<img class="result-thumb" src="${URL.createObjectURL(file)}" alt=""/>`;
+
+    const formatLabel = heic
+      ? 'HEIC'
+      : (file.type ? file.type.split('/')[1].toUpperCase() : file.name.split('.').pop().toUpperCase());
+
     card.innerHTML = `
-      <img class="result-thumb" src="${URL.createObjectURL(file)}" />
+      ${thumbHtml}
       <div class="result-info">
         <div class="result-name">${file.name}</div>
-        <div class="result-sizes">Format: ${file.type.split('/')[1].toUpperCase()}</div>
+        <div class="result-sizes">Format: ${formatLabel}</div>
       </div>
       <span style="color:#aaa;font-size:0.85rem">Ready</span>
     `;
@@ -344,10 +357,18 @@ async function convertAll() {
     const file = convertFiles[i];
     const card = cards[i];
     const status = card.querySelector('span');
-    status.textContent = 'Converting...';
 
     try {
-      const blob = await compressImage(file, 0.92, format);
+      let blob;
+
+      if (isHeic(file)) {
+        status.textContent = 'Decoding HEIC…';
+        blob = await convertHeicToBlob(file, format);
+      } else {
+        status.textContent = 'Converting...';
+        blob = await compressImage(file, 0.92, format);
+      }
+
       const url = URL.createObjectURL(blob);
       const ext = format === 'jpeg' ? 'jpg' : format;
       const dlName = file.name.replace(/\.[^.]+$/, '') + '.' + ext;
@@ -357,7 +378,8 @@ async function convertAll() {
         <a class="result-download" href="${url}" download="${dlName}">Download</a>
       `;
     } catch (err) {
-      status.textContent = 'Error';
+      console.error(err);
+      status.textContent = 'Error — try a different file';
     }
   }
 }
@@ -367,6 +389,52 @@ function clearConvert() {
   document.getElementById('convertResults').innerHTML = '';
   document.getElementById('convertControls').style.display = 'none';
   document.getElementById('convertInput').value = '';
+}
+
+// ===== HEIC/HEIF SUPPORT =====
+// Chrome, Firefox and Edge cannot decode HEIC/HEIF natively — this is a
+// deliberate licensing decision (HEVC patents), not a bug. heic2any runs
+// a WASM-based decoder fully in-browser so we can convert HEIC without
+// ever uploading the file anywhere.
+function isHeic(file) {
+  const name = file.name.toLowerCase();
+  return name.endsWith('.heic') || name.endsWith('.heif') ||
+         file.type === 'image/heic' || file.type === 'image/heif';
+}
+
+async function convertHeicToBlob(file, targetFormat) {
+  // heic2any only outputs image/jpeg or image/png directly.
+  // For WebP output, decode to PNG first, then re-encode via canvas.
+  const heicTarget = targetFormat === 'png' ? 'image/png' : 'image/jpeg';
+  const result = await heic2any({ blob: file, toType: heicTarget, quality: 0.92 });
+  // Live Photos / multi-image HEIC can return an array — use the first frame
+  const blob = Array.isArray(result) ? result[0] : result;
+
+  if (targetFormat === 'webp') {
+    return await reencodeBlobAs(blob, 'image/webp', 0.9);
+  }
+  return blob;
+}
+
+function reencodeBlobAs(blob, mimeType, quality) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(blob);
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      canvas.toBlob(result => {
+        if (result) resolve(result);
+        else reject(new Error('Re-encoding failed'));
+      }, mimeType, quality);
+    };
+    img.onerror = () => reject(new Error('Could not load decoded image'));
+    img.src = url;
+  });
 }
 
 // ===== PRESETS =====

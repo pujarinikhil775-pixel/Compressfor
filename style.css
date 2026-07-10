@@ -1381,3 +1381,19 @@ body.dark-mode .passport-selected-info {
   background: #fff;
   color: #000;
 }
+
+.result-thumb-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  color: #888;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+body.dark-mode .result-thumb-placeholder {
+  background: #222;
+  color: #777;
+}

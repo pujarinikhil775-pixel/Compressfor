@@ -225,9 +225,10 @@
           onclick="document.getElementById('convertInput').click()">
           <div class="upload-icon">⇄</div>
           <p class="upload-title">Drag & Drop to Convert</p>
-          <p class="upload-sub">or click to browse — JPG, PNG, WebP supported</p>
-          <input type="file" id="convertInput" multiple accept="image/*"
+          <p class="upload-sub">or click to browse — JPG, PNG, WebP, HEIC, AVIF supported</p>
+          <input type="file" id="convertInput" multiple accept="image/*,.heic,.heif,.avif"
             onchange="handleConvertFiles(this.files)" hidden/>
+            
         </div>
         <div class="controls" id="convertControls" style="display:none">
           <div class="control-row">
@@ -480,7 +481,8 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js" crossorigin="anonymous"></script>
-  <script defer src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/heic2any/dist/heic2any.min.js"></script>
+<script defer src="script.js"></script>
   <script>
   function toggleTheme() {
     document.body.classList.toggle('dark-mode');
