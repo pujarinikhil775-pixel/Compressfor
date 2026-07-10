@@ -47,6 +47,62 @@
     "description": "Free browser-based image compressor and converter for Instagram, Government forms, University uploads, and passport photos."
   }
   </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is CompressFor completely free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, CompressFor is 100% free with no hidden charges, no watermarks, and no registration required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are my images uploaded to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. All compression and conversion happens directly in your browser. Your images never leave your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What image formats are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CompressFor supports JPG, PNG, WebP, and GIF for compression. JPG, PNG, and WebP for conversion."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I compress an image for a Government form?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Click the Presets tab, select Government, upload your image and it will be automatically compressed to under 200KB in JPG format."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I compress multiple images at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! Simply select multiple files when uploading or drag and drop several images at once into the upload zone."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Instagram preset?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Instagram preset resizes your image to a maximum of 1080px wide and compresses it under 8MB in JPG format — perfect for posts and stories."
+      }
+    }
+  ]
+}
+</script>
   <link rel="stylesheet" href="style.css"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -228,7 +284,7 @@
           <p class="upload-sub">or click to browse — JPG, PNG, WebP, HEIC, AVIF supported</p>
           <input type="file" id="convertInput" multiple accept="image/*,.heic,.heif,.avif"
             onchange="handleConvertFiles(this.files)" hidden/>
-            
+
         </div>
         <div class="controls" id="convertControls" style="display:none">
           <div class="control-row">
@@ -322,17 +378,24 @@
 </div>
     </div>
   </section>
+<section class="related-tools" style="padding:2.5rem 2rem; text-align:center;">
 
-  <section class="related-tools" style="padding:2.5rem 2rem; text-align:center;">
-    <div class="container">
+  <div class="container">
       <h2 style="font-size:1.3rem; margin-bottom:1rem;">Explore Our Other Tools</h2>
       <div style="display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap;">
      <a href="presets.html" class="tool-pill">Compression Presets</a>
       <a href="convert.html" class="tool-pill">Image Converter</a>
       <a href="passport-photo-tool.html" class="tool-pill">Passport Photo Tool</a>
       </div>
+
+      <h2 style="font-size:1.3rem; margin:2rem 0 1rem;">Popular Guides</h2>
+      <div style="display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap;">
+      <a href="blog-size-compressor.html" class="tool-pill">File Too Large? Top 5 Fixes</a>
+      <a href="blog-compress-image-50kb.html" class="tool-pill">Compress Image to 50KB</a>
+      <a href="blog-compress-image-100kb.html" class="tool-pill">Compress Image to 100KB</a>
+      <a href="blog-passport-photo-size-converter.html" class="tool-pill">Passport Photo Size Guide</a>
+      </div>
     </div>
-  </section>
 
   <!-- HOW IT WORKS -->
   <section class="how-section">
