@@ -155,10 +155,10 @@
   <section class="tabs-section" id="compress">
     <div class="container">
     <div class="tab-buttons">
-  <button class="tab-btn active" onclick="switchTab('compress')">Compress</button>
-  <button class="tab-btn" onclick="switchTab('presets')">Presets</button>
-  <button class="tab-btn" onclick="switchTab('convert')">Convert</button>
-  <button class="tab-btn" onclick="switchTab('passport')">Image to Passport</button>
+  <a href="index.html" class="tab-btn active">Compress</a>
+  <a href="presets.html" class="tab-btn">Presets</a>
+  <a href="convert.html" class="tab-btn">Convert</a>
+  <a href="passport-photo-tool.html" class="tab-btn">Image to Passport</a>
 </div>
       <!-- COMPRESS TAB -->
       <div class="tab-content active" id="tab-compress">
@@ -220,163 +220,6 @@
         <div class="results" id="compressResults"></div>
       </div>
 
-      <!-- PRESETS TAB -->
-      <div class="tab-content" id="tab-presets">
-        <p class="preset-intro">Choose a preset — settings are automatically applied for you.</p>
-        <div class="preset-grid">
-          <div class="preset-card" onclick="applyPreset('instagram')">
-            <div class="preset-icon">📸</div>
-            <h2>Instagram</h2>
-            <p>Max 1080px wide, under 8MB, JPG format. Perfect for posts and stories.</p>
-            <span class="preset-tag">Social Media</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('government')">
-            <div class="preset-icon">🏛️</div>
-            <h2>Government</h2>
-            <p>Under 50KB or 200KB, JPG format. Ideal for official form uploads.</p>
-            <span class="preset-tag">Official</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('university')">
-            <div class="preset-icon">🎓</div>
-            <h2>University</h2>
-            <p>Passport size, under 100KB, JPG. For admission and ID card uploads.</p>
-            <span class="preset-tag">Education</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('whatsapp')">
-            <div class="preset-icon">💬</div>
-            <h2>WhatsApp</h2>
-            <p>Optimized for WhatsApp sharing. Reduced size, good quality.</p>
-            <span class="preset-tag">Messaging</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('email')">
-            <div class="preset-icon">✉️</div>
-            <h2>Email</h2>
-            <p>Under 1MB, perfect for email attachments without quality loss.</p>
-            <span class="preset-tag">Professional</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('web')">
-            <div class="preset-icon">🌐</div>
-            <h2>Website / Blog</h2>
-            <p>WebP format, optimized for fast web loading and SEO performance.</p>
-            <span class="preset-tag">Web</span>
-          </div>
-        </div>
-        <div class="upload-zone" id="presetDropZone" style="margin-top:2rem; display:none"
-          ondragover="event.preventDefault()"
-          ondrop="handlePresetDrop(event)"
-          onclick="document.getElementById('presetInput').click()">
-          <div class="upload-icon">↑</div>
-          <p class="upload-title" id="presetZoneTitle">Upload for selected preset</p>
-          <p class="upload-sub">or click to browse</p>
-          <input type="file" id="presetInput" multiple accept="image/*"
-            onchange="handlePresetFiles(this.files)" hidden/>
-        </div>
-        <div class="results" id="presetResults"></div>
-      </div>
-
-      <!-- CONVERT TAB -->
-      <div class="tab-content" id="tab-convert">
-        <div class="upload-zone" id="convertDropZone"
-          ondragover="event.preventDefault()"
-          ondrop="handleConvertDrop(event)"
-          onclick="document.getElementById('convertInput').click()">
-          <div class="upload-icon">⇄</div>
-          <p class="upload-title">Drag & Drop to Convert</p>
-          <p class="upload-sub">or click to browse — JPG, PNG, WebP, HEIC, AVIF supported</p>
-          <input type="file" id="convertInput" multiple accept="image/*,.heic,.heif,.avif"
-            onchange="handleConvertFiles(this.files)" hidden/>
-
-        </div>
-        <div class="controls" id="convertControls" style="display:none">
-          <div class="control-row">
-            <label>Convert To:</label>
-            <select id="convertFormat">
-              <option value="jpeg">JPG</option>
-              <option value="png">PNG</option>
-              <option value="webp">WebP</option>
-            </select>
-          </div>
-          <div class="btn-row">
-            <button class="btn-primary" onclick="convertAll()">Convert All</button>
-            <button class="btn-secondary" onclick="clearConvert()">Clear</button>
-          </div>
-        </div>
-        <div class="results" id="convertResults"></div>
-      </div>
-
-      <!-- PASSPORT SIZE TAB -->
-<div class="tab-content" id="tab-passport">
-
-  <div class="passport-intro">
-    <p class="upload-title">Convert Any Photo to Passport Size</p>
-    <p class="upload-sub">Choose your country standard — we crop and resize automatically</p>
-  </div>
-
-  <!-- Country Standards -->
-  <div class="passport-standards">
-    <button class="passport-btn active" onclick="selectPassport(this, 35, 45, 'India')" data-label="India 35x45mm">
-      🇮🇳 India
-      <span>35 x 45 mm</span>
-    </button>
-    <button class="passport-btn" onclick="selectPassport(this, 51, 51, 'US')" data-label="US 2x2 inch">
-      🇺🇸 USA
-      <span>51 x 51 mm</span>
-    </button>
-    <button class="passport-btn" onclick="selectPassport(this, 35, 45, 'UK')" data-label="UK 35x45mm">
-      🇬🇧 UK
-      <span>35 x 45 mm</span>
-    </button>
-    <button class="passport-btn" onclick="selectPassport(this, 35, 45, 'Europe')" data-label="Europe 35x45mm">
-      🇪🇺 Europe
-      <span>35 x 45 mm</span>
-    </button>
-    <button class="passport-btn" onclick="selectPassport(this, 33, 48, 'China')" data-label="China 33x48mm">
-      🇨🇳 China
-      <span>33 x 48 mm</span>
-    </button>
-    <button class="passport-btn" onclick="selectPassport(this, 40, 60, 'Visa')" data-label="Visa 40x60mm">
-      🌐 Visa
-      <span>40 x 60 mm</span>
-    </button>
-  </div>
-
-  <!-- Selected Standard Info -->
-  <div class="passport-selected-info" id="passportInfo">
-    Selected: <strong id="passportLabel">India 35x45mm</strong>
-  </div>
-
-  <!-- Upload Zone -->
-  <div class="upload-zone" id="passportDropZone"
-    ondragover="event.preventDefault()"
-    ondrop="handlePassportDrop(event)"
-    onclick="document.getElementById('passportInput').click()">
-    <div class="upload-icon">🪪</div>
-    <p class="upload-title">Upload Your Photo</p>
-    <p class="upload-sub">JPG, PNG, WebP supported — face should be clearly visible</p>
-    <input type="file" id="passportInput" accept="image/*"
-      onchange="handlePassportFile(this.files)" hidden/>
-  </div>
-
-  <!-- Tips -->
-  <div class="passport-tips">
-    <div class="tip-card">
-      <span>💡</span>
-      <p>Keep the background plain of any colour for the best results.</p>
-    </div>
-    <div class="tip-card">
-      <span>📐</span>
-      <p>Face should take up 70-80% of the frame for official passport requirements</p>
-    </div>
-    <div class="tip-card">
-      <span>📱</span>
-      <p>Works on mobile take a photo directly and convert instantly</p>
-    </div>
-  </div>
-
-  <!-- Result -->
-  <div id="passportResult"></div>
-
-</div>
     </div>
   </section>
   <section class="homepage-info" style="padding:3rem 2rem; text-align:center; max-width:750px; margin:0 auto;">

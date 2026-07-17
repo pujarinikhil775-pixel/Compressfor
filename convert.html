@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Convert Image Format Online — JPG, PNG, WebP | CompressFor</title>
+  <title>Convert Image Format Online — Batch JPG, PNG, WebP, CR2 | CompressFor</title>
   <link rel="canonical" href="https://www.compressfor.com/convert.html"/>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23fff' stroke='%23000' stroke-width='6'/><text y='54' x='50' text-anchor='middle' font-size='38' font-family='Inter,sans-serif' font-weight='700' fill='%23000'>CF</text></svg>"/>
-  <meta name="description" content="Convert images between JPG, PNG and WebP instantly in your browser. Free, no upload to server, no signup."/>
+  <meta name="description" content="Convert images between JPG, PNG, WebP, HEIC and RAW formats like CR2 instantly in your browser. Batch convert multiple files at once — free, private, no signup."/>
   <meta name="keywords" content="convert image format, batch convert png to jpg online, convert cr2 to jpg, jpg to png, png to jpg, convert to webp, image format converter online"/>
   <meta name="robots" content="index, follow"/>
-  <meta property="og:title" content="Convert Image Format Online — CompressFor"/>
-  <meta property="og:description" content="Convert between JPG, PNG and WebP instantly. Free, private, no upload to server."/>
+  <meta property="og:title" content="Convert Image Format Online — Batch JPG, PNG, WebP, CR2 | CompressFor"/>
+  <meta property="og:description" content="Convert images between JPG, PNG, WebP, HEIC and RAW formats like CR2 instantly in your browser. Free, private, no signup."/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://www.compressfor.com/convert.html"/>
   <link rel="stylesheet" href="style.css"/>
@@ -37,124 +37,24 @@
 
   <section class="hero" style="padding-top:40px; padding-bottom:32px;">
     <h1>Convert Image Format</h1>
-    <p>Convert between JPG, PNG and WebP instantly — right in your browser. No upload, no signup.</p>
+    <p>Convert between JPG, PNG, WebP, HEIC and RAW formats like CR2 instantly — right in your browser. No upload, no signup.</p>
   </section>
 
   <section class="tabs-section" id="compress">
     <div class="container">
     <div class="tab-buttons">
-      <button class="tab-btn" onclick="switchTab('compress')">Compress</button>
-      <button class="tab-btn" onclick="switchTab('presets')">Presets</button>
-      <button class="tab-btn active" onclick="switchTab('convert')">Convert</button>
-      <button class="tab-btn" onclick="switchTab('passport')">Image to Passport</button>
+      <a href="index.html" class="tab-btn">Compress</a>
+      <a href="presets.html" class="tab-btn">Presets</a>
+      <a href="convert.html" class="tab-btn active">Convert</a>
+      <a href="passport-photo-tool.html" class="tab-btn">Image to Passport</a>
     </div>
-
-      <div class="tab-content" id="tab-compress">
-        <div class="upload-zone" id="compressDropZone" ondragover="event.preventDefault()" ondrop="handleCompressDrop(event)" onclick="document.getElementById('compressInput').click()">
-          <div class="upload-icon">↑</div>
-          <p class="upload-title">Drag & Drop Images Here</p>
-          <p class="upload-sub">or click to browse — JPG, PNG, WebP, HEIC, AVIF supported</p>
-        <input type="file" id="convertInput" multiple accept="image/*,.heic,.heif,.avif" onchange="handleConvertFiles(this.files)" hidden/>
-        </div>
-        <div class="controls" id="compressControls">
-          <div class="control-row">
-            <label>Quality: <span id="qualityValue">80</span>%</label>
-            <input type="range" id="qualitySlider" min="1" max="100" value="80" aria-label="Image quality percentage" oninput="document.getElementById('qualityValue').textContent=this.value"/>
-          </div>
-          <div class="control-row">
-            <label>Output Format:</label>
-            <select id="outputFormat" aria-label="Output image format">
-              <option value="jpeg">JPG</option>
-              <option value="png">PNG</option>
-              <option value="webp">WebP</option>
-            </select>
-          </div>
-          <div class="target-kb-section">
-            <div class="target-kb-header">
-              <label class="target-kb-label">
-                <input type="checkbox" id="targetKbEnabled" onchange="toggleTargetKb()"/>
-                Compress to exact file size
-              </label>
-            </div>
-            <div class="target-kb-controls" id="targetKbControls" style="display:none">
-              <div class="target-kb-presets">
-                <button class="kb-preset-btn" onclick="setTargetKb(20)">20 KB</button>
-                <button class="kb-preset-btn" onclick="setTargetKb(50)">50 KB</button>
-                <button class="kb-preset-btn" onclick="setTargetKb(100)">100 KB</button>
-                <button class="kb-preset-btn" onclick="setTargetKb(200)">200 KB</button>
-                <button class="kb-preset-btn" onclick="setTargetKb(500)">500 KB</button>
-                <button class="kb-preset-btn" onclick="setTargetKb(1024)">1 MB</button>
-              </div>
-              <div class="target-kb-input-row">
-                <span>Or type exact size:</span>
-                <input type="number" id="targetKbValue" placeholder="e.g. 50" min="1" max="10000" aria-label="Target file size in kilobytes"/>
-                <span>KB</span>
-              </div>
-            </div>
-          </div>
-          <div class="btn-row">
-            <button class="btn-primary" onclick="compressAll()">Compress All</button>
-            <button class="btn-secondary" onclick="clearCompress()">Clear</button>
-          </div>
-        </div>
-        <div class="results" id="compressResults"></div>
-      </div>
-
-      <div class="tab-content" id="tab-presets">
-        <p class="preset-intro">Choose a preset — settings are automatically applied for you.</p>
-        <div class="preset-grid">
-          <div class="preset-card" onclick="applyPreset('instagram')">
-            <div class="preset-icon">📸</div>
-            <h2>Instagram</h2>
-            <p>Max 1080px wide, under 8MB, JPG format. Perfect for posts and stories.</p>
-            <span class="preset-tag">Social Media</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('government')">
-            <div class="preset-icon">🏛️</div>
-            <h2>Government</h2>
-            <p>Under 50KB or 200KB, JPG format. Ideal for official form uploads.</p>
-            <span class="preset-tag">Official</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('university')">
-            <div class="preset-icon">🎓</div>
-            <h2>University</h2>
-            <p>Passport size, under 100KB, JPG. For admission and ID card uploads.</p>
-            <span class="preset-tag">Education</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('whatsapp')">
-            <div class="preset-icon">💬</div>
-            <h2>WhatsApp</h2>
-            <p>Optimized for WhatsApp sharing. Reduced size, good quality.</p>
-            <span class="preset-tag">Messaging</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('email')">
-            <div class="preset-icon">✉️</div>
-            <h2>Email</h2>
-            <p>Under 1MB, perfect for email attachments without quality loss.</p>
-            <span class="preset-tag">Professional</span>
-          </div>
-          <div class="preset-card" onclick="applyPreset('web')">
-            <div class="preset-icon">🌐</div>
-            <h2>Website / Blog</h2>
-            <p>WebP format, optimized for fast web loading and SEO performance.</p>
-            <span class="preset-tag">Web</span>
-          </div>
-        </div>
-        <div class="upload-zone" id="presetDropZone" style="margin-top:2rem; display:none" ondragover="event.preventDefault()" ondrop="handlePresetDrop(event)" onclick="document.getElementById('presetInput').click()">
-          <div class="upload-icon">↑</div>
-          <p class="upload-title" id="presetZoneTitle">Upload for selected preset</p>
-          <p class="upload-sub">or click to browse</p>
-          <input type="file" id="presetInput" multiple accept="image/*" onchange="handlePresetFiles(this.files)" hidden/>
-        </div>
-        <div class="results" id="presetResults"></div>
-      </div>
 
       <div class="tab-content active" id="tab-convert">
         <div class="upload-zone" id="convertDropZone" ondragover="event.preventDefault()" ondrop="handleConvertDrop(event)" onclick="document.getElementById('convertInput').click()">
           <div class="upload-icon">⇄</div>
           <p class="upload-title">Drag & Drop to Convert</p>
-          <p class="upload-sub">or click to browse — JPG, PNG, WebP supported</p>
-          <input type="file" id="convertInput" multiple accept="image/*" onchange="handleConvertFiles(this.files)" hidden/>
+          <p class="upload-sub">or click to browse — JPG, PNG, WebP, HEIC, CR2, TIFF supported</p>
+          <input type="file" id="convertInput" multiple accept="image/*,.heic,.heif,.avif,.cr2,.tiff,.tif" onchange="handleConvertFiles(this.files)" hidden/>
         </div>
         <div class="controls" id="convertControls" style="display:none">
           <div class="control-row">
@@ -173,38 +73,10 @@
         <div class="results" id="convertResults"></div>
       </div>
 
-      <div class="tab-content" id="tab-passport">
-        <div class="passport-intro">
-          <p class="upload-title">Convert Any Photo to Passport Size</p>
-          <p class="upload-sub">Choose your country standard — we crop and resize automatically</p>
-        </div>
-        <div class="passport-standards">
-          <button class="passport-btn active" onclick="selectPassport(this, 35, 45, 'India')" data-label="India 35x45mm">🇮🇳 India<span>35 x 45 mm</span></button>
-          <button class="passport-btn" onclick="selectPassport(this, 51, 51, 'US')" data-label="US 2x2 inch">🇺🇸 USA<span>51 x 51 mm</span></button>
-          <button class="passport-btn" onclick="selectPassport(this, 35, 45, 'UK')" data-label="UK 35x45mm">🇬🇧 UK<span>35 x 45 mm</span></button>
-          <button class="passport-btn" onclick="selectPassport(this, 35, 45, 'Europe')" data-label="Europe 35x45mm">🇪🇺 Europe<span>35 x 45 mm</span></button>
-          <button class="passport-btn" onclick="selectPassport(this, 33, 48, 'China')" data-label="China 33x48mm">🇨🇳 China<span>33 x 48 mm</span></button>
-          <button class="passport-btn" onclick="selectPassport(this, 40, 60, 'Visa')" data-label="Visa 40x60mm">🌐 Visa<span>40 x 60 mm</span></button>
-        </div>
-        <div class="passport-selected-info" id="passportInfo">Selected: <strong id="passportLabel">India 35x45mm</strong></div>
-        <div class="upload-zone" id="passportDropZone" ondragover="event.preventDefault()" ondrop="handlePassportDrop(event)" onclick="document.getElementById('passportInput').click()">
-          <div class="upload-icon">🪪</div>
-          <p class="upload-title">Upload Your Photo</p>
-          <p class="upload-sub">JPG, PNG, WebP supported — face should be clearly visible</p>
-          <input type="file" id="passportInput" accept="image/*" onchange="handlePassportFile(this.files)" hidden/>
-        </div>
-        <div class="passport-tips">
-          <div class="tip-card"><span>💡</span><p>Keep the background plain of any colour for the best results.</p></div>
-          <div class="tip-card"><span>📐</span><p>Face should take up 70-80% of the frame for official passport requirements</p></div>
-          <div class="tip-card"><span>📱</span><p>Works on mobile — take a photo directly and convert instantly</p></div>
-        </div>
-        <div id="passportResult"></div>
-      </div>
-
     </div>
   </section>
 
-<section class="homepage-info" style="padding:3rem 2rem; text-align:center; max-width:750px; margin:0 auto;">
+  <section class="homepage-info" style="padding:3rem 2rem; text-align:center; max-width:750px; margin:0 auto;">
     <h2 style="font-size:1.6rem; margin-bottom:1rem;">Why Convert Image Formats in the First Place?</h2>
     <p style="color:#555; line-height:1.7; font-size:1rem;">
       Not every website, form, or app accepts every image format. A photo saved as PNG might be rejected by a portal that only takes JPG, or a photo from a professional camera might open as a format your laptop doesn't recognize at all. Converting the format doesn't change what's in the photo, it just changes how that information is packaged, so the picture itself stays exactly the same.
@@ -229,6 +101,14 @@
           <button class="faq-question" onclick="toggleFaq(this)"><span>Does converting to WebP reduce quality?</span><span class="faq-icon">+</span></button>
           <div class="faq-answer"><p>WebP typically produces smaller files than JPG at the same visual quality, so there's usually no noticeable loss.</p></div>
         </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)"><span>Can I convert camera RAW files like CR2 to JPG?</span><span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>Yes — upload your CR2 or TIFF file from a DSLR or mirrorless camera, choose JPG as the output, and it converts directly in your browser without needing separate camera software installed.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)"><span>Can I convert multiple images at the same time?</span><span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>Yes — select or drag in multiple files at once, and each one converts together in a single batch, rather than needing to upload and download one image at a time.</p></div>
+        </div>
       </div>
     </div>
   </section>
@@ -237,9 +117,9 @@
     <div class="container">
       <h2 style="font-size:1.3rem; margin-bottom:1rem;">Explore Our Other Tools</h2>
       <div style="display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap;">
-        <a href="index.html" style="border:1.5px solid #ddd; border-radius:999px; padding:0.6rem 1.4rem; text-decoration:none; color:#111; font-weight:600; font-size:0.9rem;">Compress Image</a>
+        <a href="index.html" class="tool-pill">Compress Image</a>
         <a href="presets.html" class="tool-pill">Compression Presets</a>
-        <a href="passport-photo-tool.html" style="border:1.5px solid #ddd; border-radius:999px; padding:0.6rem 1.4rem; text-decoration:none; color:#111; font-weight:600; font-size:0.9rem;">Passport Photo Tool</a>
+        <a href="passport-photo-tool.html" class="tool-pill">Passport Photo Tool</a>
       </div>
     </div>
   </section>

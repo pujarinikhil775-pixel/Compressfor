@@ -1,24 +1,3 @@
-// ===== TAB SWITCHING =====
-function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    if (b.textContent.toLowerCase().trim() === tab) b.classList.add('active');
-  });
-
-  // NEW: update the URL to match the tab, without reloading the page
-  const urlMap = {
-    compress: 'index.html',
-    presets: 'presets.html',
-    convert: 'convert.html',
-    passport: 'passport-photo-tool.html'
-  };
-  if (urlMap[tab] && window.location.pathname.split('/').pop() !== urlMap[tab]) {
-    history.pushState({ tab: tab }, '', urlMap[tab]);
-  }
-}
-
 // ===== FAQ ACCORDION =====
 function toggleFaq(btn) {
   const item = btn.closest('.faq-item');
