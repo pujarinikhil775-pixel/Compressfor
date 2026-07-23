@@ -211,8 +211,12 @@ body.dark-mode .post-cta {
   color: #000;
 }
 
+body.dark-mode .post-cta h3 {
+  color: #000;
+}
+
 body.dark-mode .post-cta p {
-  color: #555;
+  color: #333;
 }
 
 body.dark-mode .post-cta .btn-primary {
