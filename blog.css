@@ -184,3 +184,34 @@
     grid-column: 1;
   }
 }
+
+/* ===== DARK MODE ===== */
+body.dark-mode .blog-section {
+  background: #161616;
+}
+
+body.dark-mode .blog-card {
+  background: #1a1a1a;
+  border-color: #2a2a2a;
+}
+
+body.dark-mode .blog-card h2 a {
+  color: #fff;
+}
+
+body.dark-mode .blog-card h2 a:hover {
+  color: #ccc;
+}
+
+body.dark-mode .blog-card p {
+  color: #999;
+}
+
+body.dark-mode .blog-meta {
+  color: #666;
+}
+
+body.dark-mode .blog-read-more {
+  color: #fff;
+  border-bottom-color: #fff;
+}

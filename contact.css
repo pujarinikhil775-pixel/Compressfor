@@ -279,3 +279,89 @@
     padding: 3rem 1.5rem 4rem;
   }
 }
+
+/* ===== DARK MODE ===== */
+body.dark-mode .contact-section {
+  background: #161616;
+}
+
+body.dark-mode .contact-info h2 {
+  color: #fff;
+}
+
+body.dark-mode .contact-info > p {
+  color: #999;
+}
+
+body.dark-mode .info-card {
+  background: #1a1a1a;
+  border-color: #2a2a2a;
+}
+
+body.dark-mode .info-card h4 {
+  color: #fff;
+}
+
+body.dark-mode .info-card p {
+  color: #999;
+}
+
+body.dark-mode .contact-form-wrap {
+  background: #1a1a1a;
+  border-color: #2a2a2a;
+}
+
+body.dark-mode .contact-form h2 {
+  color: #fff;
+}
+
+body.dark-mode .form-sub {
+  color: #999;
+}
+
+body.dark-mode .form-group label {
+  color: #ccc;
+}
+
+body.dark-mode .form-group input,
+body.dark-mode .form-group select,
+body.dark-mode .form-group textarea {
+  background: #222;
+  border-color: #333;
+  color: #fff;
+}
+
+body.dark-mode .submit-btn {
+  background: #fff;
+  color: #000;
+}
+
+body.dark-mode .submit-btn:hover {
+  background: #ddd;
+}
+
+body.dark-mode .form-success {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: #22c55e;
+  color: #4ade80;
+}
+
+body.dark-mode .contact-faq {
+  background: #0d0d0d;
+}
+
+body.dark-mode .contact-faq h2 {
+  color: #fff;
+}
+
+/* Fix: this page's .faq-item is a plain card (not the homepage's
+   accordion), so it needs its own text-color rules — otherwise the
+   background goes dark from style.css's rule but the text stays
+   dark too, making it unreadable. */
+body.dark-mode .faq-item h3 {
+  color: #fff;
+}
+
+body.dark-mode .faq-item p {
+  color: #999;
+}
