@@ -51,7 +51,7 @@
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="blog.html">Blog</a>
-      </div>
+        <a href="contact.html">Contact</a>
     </div>
   </nav>
   <main>
@@ -115,12 +115,25 @@
       <a href="index.html" class="logo">CompressFor</a>
       <p>Free image compression & conversion. Your files never leave your device.</p>
       <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="blog.html">Blog</a>
-      </div>
+  <a href="index.html">Home</a>
+  <a href="presets.html">Presets</a>
+  <a href="convert.html">Convert</a>
+  <a href="passport-photo-tool.html">Passport Photo</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
       <p class="footer-copy">© 2025 CompressFor. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>
+    (function() {
+      const saved = localStorage.getItem('compressfor-theme');
+      if (saved === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    })();
+  </script>
 
 </body>
 </html>

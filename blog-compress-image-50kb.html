@@ -197,5 +197,14 @@
     </div>
   </footer>
 
+  <script>
+    (function() {
+      const saved = localStorage.getItem('compressfor-theme');
+      if (saved === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    })();
+  </script>
+  
 </body>
 </html>

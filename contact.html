@@ -21,9 +21,7 @@
         <a href="index.html">Home</a>
         <a href="blog.html">Blog</a>
         <a href="contact.html" class="nav-active">Contact</a>
-        <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
       </div>
-    </div>
   </nav>
   <main>
 
@@ -208,6 +206,16 @@
         submitBtn.disabled = false;
       }
     }
+  </script>
+</script>
+
+  <script>
+    (function() {
+      const saved = localStorage.getItem('compressfor-theme');
+      if (saved === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    })();
   </script>
 
 </body>
