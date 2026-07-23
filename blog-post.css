@@ -130,3 +130,92 @@
     border-radius: 0;
   }
 }
+
+/* ===== DARK MODE ===== */
+body.dark-mode .post-wrap {
+  background: #161616;
+}
+
+body.dark-mode .post-container {
+  background: #1a1a1a;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .post-tag {
+  background: #fff;
+  color: #000;
+}
+
+body.dark-mode .post-container h1 {
+  color: #fff;
+}
+
+body.dark-mode .post-meta {
+  color: #777;
+  border-bottom-color: #2a2a2a;
+}
+
+body.dark-mode .post-lead {
+  color: #ccc;
+}
+
+body.dark-mode .post-container h2,
+body.dark-mode .post-container h3,
+body.dark-mode .post-container h4 {
+  color: #fff;
+}
+
+body.dark-mode .post-container p {
+  color: #bbb;
+}
+
+body.dark-mode .post-container li {
+  color: #bbb;
+}
+
+body.dark-mode .post-container a {
+  color: #fff;
+}
+
+body.dark-mode .post-container a:hover {
+  color: #ccc;
+}
+
+body.dark-mode .post-container strong {
+  color: #fff;
+}
+
+/* Tables inside blog posts */
+body.dark-mode .post-container table {
+  border-color: #2a2a2a;
+}
+
+body.dark-mode .post-container th {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #2a2a2a !important;
+}
+
+body.dark-mode .post-container td {
+  background: #1a1a1a !important;
+  color: #bbb !important;
+  border-color: #2a2a2a !important;
+}
+
+body.dark-mode .post-container tr:nth-child(even) td {
+  background: #222 !important;
+}
+
+body.dark-mode .post-cta {
+  background: #fff;
+  color: #000;
+}
+
+body.dark-mode .post-cta p {
+  color: #555;
+}
+
+body.dark-mode .post-cta .btn-primary {
+  background: #000;
+  color: #fff;
+}
