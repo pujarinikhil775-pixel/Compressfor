@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Passport & US Visa Photo Size Converter Free | CompressFor</title>
+  <link rel="canonical" href="https://www.compressfor.com/passport-photo-tool.html"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23fff' stroke='%23000' stroke-width='6'/><text y='54' x='50' text-anchor='middle' font-size='38' font-family='Inter,sans-serif' font-weight='700' fill='%23000'>CF</text></svg>"/>
+ <meta name="description" content="Convert any photo to passport size for India, USA, UK, Europe, China or Visa, plus US visa photo size. Free, instant, no upload to server, no signup."/>
+  <meta name="keywords" content="passport photo size converter, america visa passport photo size, us visa photo size, passport photo maker, passport size photo online, passport photo cropper"/>
+  <meta name="robots" content="index, follow"/>
+  <meta property="og:title" content="Passport & US Visa Photo Size Converter Free | CompressFor"/>
+  <meta property="og:description" content="Upload any photo, choose your country standard, get a perfectly sized passport photo instantly."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://www.compressfor.com/passport-photo-tool.html"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">CompressFor</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+  <section class="hero" style="padding-top:40px; padding-bottom:32px;">
+    <h1>Passport Photo Converter</h1>
+    <p>Upload any photo — we crop and resize it to the exact passport standard for your country.</p>
+  </section>
+
+  <section class="tabs-section" id="compress">
+    <div class="container">
+    <div class="tab-buttons">
+      <a href="index.html" class="tab-btn">Compress</a>
+      <a href="presets.html" class="tab-btn">Presets</a>
+      <a href="convert.html" class="tab-btn">Convert</a>
+      <a href="passport-photo-tool.html" class="tab-btn active">Image to Passport</a>
+    </div>
+
+      <div class="tab-content active" id="tab-passport">
+        <div class="passport-intro">
+          <p class="upload-title">Convert Any Photo to Passport Size</p>
+          <p class="upload-sub">Choose your country standard — we crop and resize automatically</p>
+        </div>
+        <div class="passport-standards">
+          <button class="passport-btn active" onclick="selectPassport(this, 35, 45, 'India')" data-label="India 35x45mm">🇮🇳 India<span>35 x 45 mm</span></button>
+          <button class="passport-btn" onclick="selectPassport(this, 51, 51, 'US')" data-label="US 2x2 inch">🇺🇸 USA<span>51 x 51 mm</span></button>
+          <button class="passport-btn" onclick="selectPassport(this, 35, 45, 'UK')" data-label="UK 35x45mm">🇬🇧 UK<span>35 x 45 mm</span></button>
+          <button class="passport-btn" onclick="selectPassport(this, 35, 45, 'Europe')" data-label="Europe 35x45mm">🇪🇺 Europe<span>35 x 45 mm</span></button>
+          <button class="passport-btn" onclick="selectPassport(this, 33, 48, 'China')" data-label="China 33x48mm">🇨🇳 China<span>33 x 48 mm</span></button>
+          <button class="passport-btn" onclick="selectPassport(this, 40, 60, 'Visa')" data-label="Visa 40x60mm">🌐 Visa<span>40 x 60 mm</span></button>
+        </div>
+        <div class="passport-selected-info" id="passportInfo">Selected: <strong id="passportLabel">India 35x45mm</strong></div>
+        <div class="upload-zone" id="passportDropZone" ondragover="event.preventDefault()" ondrop="handlePassportDrop(event)" onclick="document.getElementById('passportInput').click()">
+          <div class="upload-icon">🪪</div>
+          <p class="upload-title">Upload Your Photo</p>
+          <p class="upload-sub">JPG, PNG, WebP supported — face should be clearly visible</p>
+          <input type="file" id="passportInput" accept="image/*" onchange="handlePassportFile(this.files)" hidden/>
+        </div>
+        <div class="passport-tips">
+          <div class="tip-card"><span>💡</span><p>Keep the background plain of any colour for the best results.</p></div>
+          <div class="tip-card"><span>📐</span><p>Face should take up 70-80% of the frame for official passport requirements</p></div>
+          <div class="tip-card"><span>📱</span><p>Works on mobile — take a photo directly and convert instantly</p></div>
+        </div>
+        <div id="passportResult"></div>
+      </div>
+
+   </div>
+  </section>
+
+  <section class="before-after-section" style="padding:3rem 2rem; text-align:center; max-width:900px; margin:0 auto;">
+    <h2 style="font-size:1.6rem; margin-bottom:0.6rem;">See the Difference: Before &amp; After</h2>
+    <p style="color:#555; line-height:1.7; font-size:1rem; margin-bottom:0.4rem;">
+      Illustrative example — a casual photo, converted automatically to a compliant passport photo. No studio, no editing skills needed.
+    </p>
+    <p style="color:#999; font-size:0.82rem; margin-bottom:2rem;">
+      Example image for demonstration purposes.
+    </p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; max-width:700px; margin:0 auto;">
+      <div>
+        <img
+          src="/images/passport-photo-before-example.jpg"
+          alt="Example casual photo before conversion, taken against a normal indoor background"
+          width="640"
+          height="853"
+          loading="lazy"
+          style="width:100%; height:auto; border-radius:12px; border:1.5px solid #e8e8e8;"
+        />
+        <p style="margin-top:0.6rem; font-weight:600; color:#333;">Before — casual photo</p>
+      </div>
+      <div>
+        <img
+          src="/images/passport-photo-after-example.jpg"
+          alt="Same example photo after automatic white background replacement and cropping to passport standard"
+          width="413"
+          height="531"
+          loading="lazy"
+          style="width:100%; height:auto; border-radius:12px; border:1.5px solid #e8e8e8;"
+        />
+        <p style="margin-top:0.6rem; font-weight:600; color:#333;">After — compliant passport photo</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="homepage-info" style="padding:3rem 2rem; text-align:center; max-width:750px; margin:0 auto;">
+    <h2 style="font-size:1.6rem; margin-bottom:1rem;">Do You Really Need a Photo Studio for a Passport Photo?</h2>
+    <p style="color:#555; line-height:1.7; font-size:1rem;">
+      Passport and visa photo rules are strict for a reason, since the photo has to match a specific standard so different countries' systems can process it consistently. But strict rules don't necessarily mean you need a professional studio to get it right. What actually matters is the exact size, a plain background, and a properly centered, well-lit face, all of which a phone photo can achieve if it's cropped and sized correctly afterward.
+    </p>
+    <p style="color:#555; line-height:1.7; font-size:1rem; margin-top:1rem;">
+      Different countries specify slightly different requirements. The America visa passport photo size in particular trips people up, since the US uses a 2x2 inch square format rather than the millimeter-based sizes most other countries use, including India, the UK, and most of Europe, which all use 35x45mm. Getting this wrong is one of the most common reasons a visa application photo gets sent back, since the software processing these applications is often checking the exact pixel dimensions, not just how the photo looks to a human eye.
+    </p>
+    <p style="color:#555; line-height:1.7; font-size:1rem; margin-top:1rem;">
+      Once you've got the right dimensions, the next hurdle is usually file size, since visa and passport portals often cap uploads at a specific KB limit as well. If your converted photo comes out larger than the portal accepts, <a href="blog-compress-image-50kb.html">this guide covers how to compress it down to an exact size without losing the sharpness needed for an official photo</a>.
+    </p>
+  </section>
+
+  <section class="faq-section">
+    <div class="container">
+      <h2>Passport Photo FAQs</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)"><span>Can I use a selfie for a passport or visa photo?</span><span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>Most countries accept a selfie as long as it's converted into the correct official format first — the right size, a plain background, and proper face positioning. Uploading a raw selfie without adjusting it usually gets rejected.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)"><span>Why do passport and visa photos require a plain background?</span><span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>Automated verification systems check for a consistent, uniform background to isolate the face accurately. A shadowed, colored, or busy background can cause the photo to fail this check even if it looks fine to the eye.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)"><span>How recent does my passport photo need to be?</span><span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>This varies by country — the US generally requires a photo taken within the last 6 months, while other countries have their own windows. Always use a current photo rather than reusing an old one, since outdated photos are a common rejection reason.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="related-tools" style="padding:2.5rem 2rem; text-align:center;">
+    <div class="container">
+      <h2 style="font-size:1.3rem; margin-bottom:1rem;">Explore Our Other Tools</h2>
+      <div style="display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap;">
+        <a href="index.html" class="tool-pill">Compress Image</a>
+        <a href="presets.html" class="tool-pill">Compression Presets</a>
+        <a href="convert.html" class="tool-pill">Convert Image Format</a>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a href="index.html" class="logo">CompressFor</a>
+      <p>Free image compression & conversion. Your files never leave your device.</p>
+      <div class="footer-links">
+  <a href="index.html">Home</a>
+  <a href="presets.html">Presets</a>
+  <a href="convert.html">Convert</a>
+  <a href="passport-photo-tool.html">Passport Photo</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
+      <p class="footer-copy">© 2026 CompressFor. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js" crossorigin="anonymous"></script>
+
+  <script defer src="script.js"></script>
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('compressfor-theme', isDark ? 'dark' : 'light');
+    }
+    (function() {
+      const saved = localStorage.getItem('compressfor-theme');
+      if (saved === 'dark') document.body.classList.add('dark-mode');
+    })();
+  </script>
+</body>
+</html>
