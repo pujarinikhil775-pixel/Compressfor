@@ -113,4 +113,11 @@
     <changefreq>monthly</changefreq>
   </url>
 
+  <url>
+    <loc>https://www.compressfor.com/blog-exact-file-size-algorithm.html</loc>
+    <lastmod>2026-07-28</lastmod>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
 </urlset>

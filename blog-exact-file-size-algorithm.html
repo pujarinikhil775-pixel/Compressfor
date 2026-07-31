@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MFBTT6FF5S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-MFBTT6FF5S');
+  </script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How to Compress an Image to an Exact File Size (The Real Algorithm) | CompressFor</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23fff' stroke='%23000' stroke-width='6'/><text y='54' x='50' text-anchor='middle' font-size='38' font-family='Inter,sans-serif' font-weight='700' fill='%23000'>CF</text></svg>"/>
+  <meta name="description" content="Why can't a quality slider hit an exact KB target? A real technical breakdown of the binary search algorithm behind exact-size image compression, and where it breaks down."/>
+  <meta name="keywords" content="exact file size compression, binary search image compression, compress image to exact kb, how does image compression work, jpeg quality algorithm"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://www.compressfor.com/blog-exact-file-size-algorithm.html"/>
+  <meta property="og:title" content="How to Compress an Image to an Exact File Size (The Real Algorithm)"/>
+  <meta property="og:description" content="Why can't a quality slider hit an exact KB target? A real technical breakdown of the binary search algorithm behind exact-size image compression."/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://www.compressfor.com/blog-exact-file-size-algorithm.html"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Compress an Image to an Exact File Size — And Why It's Harder Than You Think",
+    "description": "A real technical breakdown of the binary search algorithm behind exact-size image compression, and where it breaks down.",
+    "author": {
+      "@type": "Organization",
+      "name": "CompressFor",
+      "url": "https://www.compressfor.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "CompressFor",
+      "url": "https://www.compressfor.com"
+    },
+    "datePublished": "2026-07-28T09:00:00+05:30",
+    "dateModified": "2026-07-28T09:00:00+05:30"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Why doesn't my quality percentage match a predictable file size?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "File size depends on how much visual detail (entropy) is in the image, not just the quality setting. The same quality number produces very different file sizes on a simple image versus a detailed, high-noise one."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does an exact-size compressor find the right quality setting so quickly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It uses binary search — testing a middle quality value, checking whether the result is above or below the target, and repeatedly narrowing the range by half. This typically converges in 7-10 attempts rather than dozens."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is my compressed file 52KB instead of exactly 50KB?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Quality settings are discrete whole numbers, so the algorithm lands on the closest achievable file size rather than a mathematically exact match. Results vary by image and method, but landing close to the target rather than hitting it byte-for-byte is normal and expected."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why can't some images be compressed down to a very small target size at all?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Below a certain quality floor, JPEG compression stops meaningfully reducing file size while quality keeps getting worse. When quality reduction alone can't reach the target, reducing the image's pixel dimensions is the only remaining way to shrink the file further."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is exact file size compression lossless?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, it's typically lossy. Hitting a specific file size works by adjusting the JPEG quality setting, which discards some visual information by design. If you need a genuinely lossless result, you'll generally have to accept whatever file size that produces, since lossless formats like PNG don't offer the same fine-grained control over output size."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.compressfor.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://www.compressfor.com/blog.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "How to Compress an Image to an Exact File Size",
+        "item": "https://www.compressfor.com/blog-exact-file-size-algorithm.html"
+      }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="blog.css"/>
+  <link rel="stylesheet" href="blog-post.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">CompressFor</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+  <article class="post-wrap">
+    <div class="post-container">
+
+      <div class="post-tag">How It Works</div>
+      <h1>How to Compress an Image to an Exact File Size — And Why It's Harder Than You Think</h1>
+      <div class="post-meta">9 min read · How It Works · Updated July 2026</div>
+
+      <p class="post-lead">If you've ever tried uploading a photo to a government website, university portal, or job application and been told your image must be exactly 50KB or 100KB, you've probably wondered why most image compressors miss the target. Type "50" into a KB box, click compress, and get back a file that's actually close to 50KB, but understanding why this is genuinely difficult reveals something interesting about how JPEG compression works — and why almost no free tool actually does this well.</p>
+
+      <div class="post-cta" style="margin-bottom:2rem">
+        <p><strong>Compress Your Image to an Exact File Size</strong></p>
+        <a href="index.html" class="btn-primary">Try Exact KB Compression Free →</a>
+      </div>
+
+      <h2>Where Exact File Sizes Actually Matter</h2>
+      <p>This isn't a theoretical problem. Passport and visa photo portals often require files under 50KB. University admission portals commonly specify limits like 100KB or 200KB. Job application forms frequently reject images that exceed a strict upload limit, sometimes without a clear error message explaining why. In every one of these cases, "roughly small enough" isn't good enough — the portal is checking an exact number.</p>
+
+      <h2>The Problem: Quality and File Size Aren't Linearly Related</h2>
+      <p>A JPEG's "quality" setting (0-100) controls how aggressively the encoder discards visual information, but it has no fixed, predictable relationship to the resulting file size. Quality 80 on one photo might produce 40KB. Quality 80 on a different photo — same dimensions, same format — might produce 400KB. The determining factor isn't the quality number; it's how much entropy (visual complexity, detail, noise) exists in the source image. A flat-colored graphic compresses to almost nothing at high quality. A grainy, detailed photograph of foliage or fabric texture can stay large even at fairly aggressive compression, because there's simply more information for the encoder to represent.</p>
+      <p>This means there's no formula that maps "quality X" to "Y kilobytes" in advance. The only way to know the resulting file size for a given quality setting is to actually run the compression and measure it.</p>
+
+      <h2>Why Two 5MB Photos Compress Differently</h2>
+      <p>Two photos can both start out at exactly 5MB, yet one compresses down to 80KB while the other only reaches 200KB at the same settings. This isn't a bug or inconsistency — it's the entropy problem in practice. A simple portrait against a plain background contains far less visual information than a busy, detailed scene, even if both files happened to be the same size to begin with. Original file size tells you almost nothing about how compressible an image actually is; visual complexity does.</p>
+
+      <h2>Why a Linear Search Is Too Slow</h2>
+      <p>The naive approach is starting at quality 100 and decreasing by fixed steps — 95, 90, 85 — re-compressing and checking the file size each time, until you cross below the target. This works, eventually, but it's inefficient: for a large image needing a low target size, you might need 15-20 full compression passes before landing close, and each pass on a large image isn't instant.</p>
+
+      <h2>The Actual Algorithm: Binary Search Over Quality</h2>
+      <p>A proper exact-size compressor uses binary search instead — the same algorithmic idea as guessing a number between 1 and 100 in the fewest possible tries by always guessing the midpoint:</p>
+      <ul>
+        <li>Start with quality at the midpoint of the possible range (typically 50)</li>
+        <li>Compress at that quality, measure the resulting file size</li>
+        <li>If the result is larger than the target, the next guess needs lower quality — search the lower half of the remaining range</li>
+        <li>If the result is smaller than the target, there's room for higher quality — search the upper half</li>
+        <li>Repeat, each time cutting the remaining range roughly in half</li>
+      </ul>
+      <p>Because each step eliminates half of the remaining possibilities, this converges in roughly 7-10 iterations even across a full 0-100 quality range, rather than the 15-20+ a naive linear approach would need. This is also why CompressFor can hit an exact-size target in a couple of seconds rather than freezing while it churns through dozens of attempts.</p>
+
+      <h2>Why the Result Still Isn't Perfectly Exact</h2>
+      <p>Binary search finds the quality setting that produces the closest achievable file size to your target, not a mathematically perfect match — because quality settings are discrete integers (you can't ask for "quality 73.5"), and JPEG encoding isn't perfectly deterministic down to the byte. Depending on the image and the specific compression method used, an exact-size compressor typically gets as close as possible to your requested target rather than guaranteeing a byte-for-byte match — commonly within a small margin, though this varies by tool and image. Aiming a little under your actual limit, rather than exactly at it, is sensible practice if a portal has zero tolerance for going even slightly over.</p>
+
+      <h2>What Happens When the Target Genuinely Can't Be Reached</h2>
+      <p>Binary search on quality alone has a floor: even at the lowest usable quality setting, some images simply can't get small enough, because extremely low quality settings introduce compression artifacts severe enough to make the image unusable, without shrinking the file size much further. Below a certain quality floor, additional compression barely reduces file size but dramatically worsens visible quality — a phenomenon caused by JPEG's block-based DCT (discrete cosine transform) compression hitting a point of diminishing returns.</p>
+      <p>When this happens, quality reduction alone isn't enough, and the only remaining lever is reducing the image's actual pixel dimensions — a 4000×3000 photo has far more raw data to compress than the same photo resized to 1200×900, regardless of quality setting. A well-built exact-size compressor detects when quality reduction alone won't reach the target and automatically falls back to reducing dimensions as well, rather than returning a badly artifacted result at the "closest" quality setting.</p>
+
+      <div class="post-cta">
+        <p><strong>Try Exact KB Compression Free</strong></p>
+        <a href="index.html" class="btn-primary">Compress to an Exact Size Free →</a>
+      </div>
+
+      <h4>Frequently Asked Questions</h4>
+
+      <h4>Why doesn't my quality percentage match a predictable file size?</h4>
+      <p>File size depends on how much visual detail (entropy) is in the image, not just the quality setting. The same quality number produces very different file sizes on a simple image versus a detailed, high-noise one.</p>
+
+      <h3>How does an exact-size compressor find the right quality setting so quickly?</h3>
+      <p>It uses binary search — testing a middle quality value, checking whether the result is above or below the target, and repeatedly narrowing the range by half. This typically converges in 7-10 attempts rather than dozens.</p>
+
+      <h3>Why is my compressed file 52KB instead of exactly 50KB?</h3>
+      <p>Quality settings are discrete whole numbers, so the algorithm lands on the closest achievable file size rather than a mathematically exact match. Results vary by image and method, but landing close to the target rather than hitting it byte-for-byte is normal and expected.</p>
+
+      <h3>Why can't some images be compressed down to a very small target size at all?</h3>
+      <p>Below a certain quality floor, JPEG compression stops meaningfully reducing file size while quality keeps getting worse. When quality reduction alone can't reach the target, reducing the image's pixel dimensions is the only remaining way to shrink the file further.</p>
+
+      <h3>Is exact file size compression lossless?</h3>
+      <p>No, it's typically lossy. Hitting a specific file size works by adjusting the JPEG quality setting, which discards some visual information by design. If you need a genuinely lossless result, you'll generally have to accept whatever file size that produces, since lossless formats like PNG don't offer the same fine-grained control over output size.</p>
+
+      <h2>Related Guides</h2>
+      <ul>
+        <li><a href="blog-size-compressor.html">File Too Large? Top 5 Reasons & Fixes</a></li>
+        <li><a href="blog-compress-image-50kb.html">How to Compress Your Image to 50KB</a></li>
+        <li><a href="blog-compress-image-100kb.html">How to Compress Image to 100KB</a></li>
+        <li><a href="blog-image-compressor.html">What is an Image Compressor and How Does It Work?</a></li>
+        <li><a href="blog-heic-to-jpg-windows.html">Why Won't My iPhone Photos Open on Windows? (HEIC to JPG)</a></li>
+      </ul>
+
+    </div>
+  </article>
+
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <a href="index.html" class="logo">CompressFor</a>
+      <p>Free image compression & conversion. Your files never leave your device.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="presets.html">Presets</a>
+        <a href="convert.html">Convert</a>
+        <a href="passport-photo-tool.html">Passport Photo</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <p class="footer-copy">© 2026 CompressFor. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('compressfor-theme', isDark ? 'dark' : 'light');
+    }
+    (function() {
+      const saved = localStorage.getItem('compressfor-theme');
+      if (saved === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.addEventListener('DOMContentLoaded', () => {
+          const btn = document.getElementById('themeToggle');
+          if (btn) btn.textContent = '☀️';
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
