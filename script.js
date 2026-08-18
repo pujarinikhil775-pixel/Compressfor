@@ -53,73 +53,71 @@ async function compressToTargetSize(file, targetKB, format) {
   const targetBytes = targetKB * 1024;
   const mimeType = format === 'png' ? 'image/png'
     : format === 'webp' ? 'image/webp' : 'image/jpeg';
+  const isLossless = format === 'png'; // canvas.toBlob ignores the quality param for PNG
 
   return new Promise((resolve, reject) => {
     const img = new Image();
     const url = URL.createObjectURL(file);
+
     img.onload = async () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0);
       URL.revokeObjectURL(url);
 
-      // Binary search for the right quality
-      let low = 0.01;
-      let high = 1.0;
-      let best = null;
-      let attempts = 0;
+      const drawAt = (w, h) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        return canvas;
+      };
 
-      while (attempts < 20) {
-        const mid = (low + high) / 2;
-        const blob = await canvasToBlob(canvas, mimeType, mid);
+      // Binary-search quality at a given size. Only ever returns a blob
+      // that is AT OR UNDER targetBytes — never accepts an overage.
+      const searchQualityAtScale = async (w, h) => {
+        const canvas = drawAt(w, h);
 
-        if (!blob) break;
-
-        if (Math.abs(blob.size - targetBytes) < targetBytes * 0.05) {
-          best = blob;
-          break;
+        if (isLossless) {
+          // Quality has no effect on PNG size — nothing to search, just check it fits.
+          const blob = await canvasToBlob(canvas, mimeType, 1);
+          return blob && blob.size <= targetBytes ? blob : null;
         }
 
-        if (blob.size > targetBytes) {
-          high = mid;
-        } else {
-          low = mid;
-          best = blob;
-        }
-        attempts++;
-      }
+        let low = 0.01, high = 1.0, best = null;
+        for (let attempts = 0; attempts < 12; attempts++) {
+          const mid = (low + high) / 2;
+          const blob = await canvasToBlob(canvas, mimeType, mid);
+          if (!blob) break;
 
-      // If still too large, reduce dimensions
-      if (!best || best.size > targetBytes * 1.1) {
-        let scale = 0.9;
-        let w = img.width;
-        let h = img.height;
-
-        while (scale > 0.1) {
-          const c2 = document.createElement('canvas');
-          c2.width = Math.round(w * scale);
-          c2.height = Math.round(h * scale);
-          const ctx2 = c2.getContext('2d');
-          ctx2.fillStyle = '#ffffff';
-          ctx2.fillRect(0, 0, c2.width, c2.height);
-          ctx2.drawImage(img, 0, 0, c2.width, c2.height);
-          const blob2 = await canvasToBlob(c2, mimeType, 0.7);
-          if (blob2 && blob2.size <= targetBytes * 1.05) {
-            best = blob2;
-            break;
+          if (blob.size <= targetBytes) {
+            best = blob;       // only ever keep results that fit the budget
+            low = mid;         // try to push quality higher while still fitting
+          } else {
+            high = mid;        // over budget, need lower quality
           }
-          scale -= 0.1;
+          if (best && (targetBytes - best.size) < targetBytes * 0.02) break; // close enough, still under budget
+        }
+        return best;
+      };
+
+      // 1. Try at full resolution first.
+      let best = await searchQualityAtScale(img.width, img.height);
+
+      // 2. If nothing fit under budget at full res, downscale and re-run the
+      //    FULL quality search at each scale (not a fixed quality guess).
+      if (!best) {
+        for (let scale = 0.9; scale > 0.05 && !best; scale -= 0.1) {
+          const w = Math.max(1, Math.round(img.width * scale));
+          const h = Math.max(1, Math.round(img.height * scale));
+          best = await searchQualityAtScale(w, h);
         }
       }
 
       if (best) resolve(best);
-      else reject(new Error('Could not compress to target size'));
+      else reject(new Error('Could not hit that target size — try a larger target or a smaller source image.'));
     };
-    img.onerror = reject;
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not load image')); };
     img.src = url;
   });
 }
