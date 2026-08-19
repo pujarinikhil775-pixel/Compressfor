@@ -498,7 +498,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
-  .hero { padding: 4rem 1.5rem 3rem; }
+  .hero { padding: 2rem 1.25rem 1.5rem; }
   .controls { flex-direction: column; align-items: flex-start; }
   .btn-row { margin-left: 0; }
   .nav-links { gap: 1rem; }
@@ -513,31 +513,6 @@ a { text-decoration: none; color: inherit; }
   .result-card { flex-wrap: wrap; }
   .result-download { width: 100%; text-align: center; }
 }
-/* ===== GOOGLE TRANSLATE ===== */
-#google_translate_element {
-  display: inline-block;
-}
-
-#google_translate_element select {
-  background: #000;
-  color: #fff;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 0.35rem 0.7rem;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 0.85rem;
-  cursor: pointer;
-  outline: none;
-}
-
-#google_translate_element select:hover {
-  border-color: #fff;
-}
-
-.goog-te-banner-frame { display: none !important; }
-.goog-te-menu-value span { color: #fff !important; }
-body { top: 0 !important; }
-.skiptranslate { display: none !important; }
 /* ===== DARK MODE TOGGLE BUTTON ===== */
 .theme-toggle {
   background: #f0f0f0;
