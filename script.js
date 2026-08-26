@@ -742,3 +742,31 @@ function resetPassport() {
   document.getElementById('passportResult').innerHTML = '';
   document.getElementById('passportInput').value = '';
 }
+
+// ===== DARK MODE TOGGLE =====
+// Skip this block if toggleTheme() already exists inline in your
+// live index.html / convert.html — adding it twice will throw a
+// duplicate function error.
+
+(function initTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
+})();
+
+function toggleTheme() {
+  document.body.classList.toggle('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+  const btn = document.querySelector('.theme-toggle');
+  if (btn) btn.textContent = isDark ? '☀️' : '🌙';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.querySelector('.theme-toggle');
+  if (btn && document.body.classList.contains('dark-mode')) {
+    btn.textContent = '☀️';
+  }
+});

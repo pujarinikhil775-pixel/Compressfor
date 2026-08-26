@@ -1390,3 +1390,191 @@ body.dark-mode .result-thumb-placeholder {
   background: #222;
   color: #777;
 }
+
+/* ===== BLOG POST PAGE ===== */
+.post-hero {
+  padding: 3rem 0 1rem;
+  text-align: left;
+}
+
+.post-category-tag {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.post-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 0.8rem;
+  color: #111;
+}
+
+.post-hero .post-meta {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.post-body {
+  max-width: 760px;
+  padding-bottom: 3rem;
+}
+
+.post-body p {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.75;
+  margin-bottom: 1.3rem;
+}
+
+.post-body h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin: 2.5rem 0 1rem;
+  color: #111;
+}
+
+.post-body h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.8rem;
+  color: #111;
+}
+
+.post-body ul {
+  margin: 0 0 1.3rem 1.3rem;
+}
+
+.post-body li {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.7;
+  margin-bottom: 0.6rem;
+}
+
+.post-body a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: #000;
+  font-weight: 600;
+}
+
+.post-body a:hover { color: #555; }
+.post-body strong { color: #111; }
+
+.post-cta {
+  background: #000;
+  color: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  margin: 2.5rem 0;
+}
+
+.post-cta h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.post-cta p {
+  color: #ccc;
+  margin-bottom: 1.2rem;
+  font-size: 0.95rem;
+}
+
+.post-cta .btn-primary {
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.post-cta .btn-primary:hover { background: #ddd; }
+
+.related-guides {
+  max-width: 760px;
+  padding: 1rem 0 4rem;
+}
+
+.related-guides h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #111;
+}
+
+.related-guides ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.related-guides a {
+  display: block;
+  background: #f9f9f9;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 10px;
+  padding: 0.9rem 1.2rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #111;
+  transition: all 0.2s;
+}
+
+.related-guides a:hover {
+  border-color: #000;
+  background: #fff;
+}
+
+/* ===== DARK MODE — BLOG POST PAGE ===== */
+body.dark-mode .post-title,
+body.dark-mode .post-body h2,
+body.dark-mode .post-body h3,
+body.dark-mode .post-body strong {
+  color: #fff;
+}
+
+body.dark-mode .post-body p,
+body.dark-mode .post-body li {
+  color: #bbb;
+}
+
+body.dark-mode .post-body a {
+  color: #fff;
+}
+
+body.dark-mode .post-hero .post-meta {
+  color: #777;
+}
+
+body.dark-mode .related-guides h4 {
+  color: #fff;
+}
+
+body.dark-mode .related-guides a {
+  background: #1a1a1a;
+  border-color: #2a2a2a;
+  color: #fff;
+}
+
+body.dark-mode .related-guides a:hover {
+  border-color: #fff;
+}
+
+@media (max-width: 600px) {
+  .post-hero { padding: 2rem 0 0.5rem; }
+  .post-cta { padding: 1.5rem; }
+}
