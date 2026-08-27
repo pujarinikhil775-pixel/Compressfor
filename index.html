@@ -95,12 +95,12 @@
         "text": "CompressFor supports JPG, PNG, WebP, GIF, HEIC and AVIF for compression and conversion, including camera RAW formats like CR2."
       }
     },
-    {
+       {
       "@type": "Question",
       "name": "How do I compress an image for a Government form?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Click the Presets tab, select Government, upload your image and it will be automatically compressed to under 200KB in JPG format."
+        "text": "Click the Presets tab, select Government, upload your image and it will be automatically compressed to under 200KB in JPG format. For a different exact size, see how to compress an image to a specific file size."
       }
     },
     {
@@ -138,7 +138,37 @@
   ]
 }
 </script>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="preload" as="style" href="style.css"/>
+  <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'"/>
+  <noscript><link rel="stylesheet" href="style.css"/></noscript>
+  <!-- Critical CSS — navbar + hero, inlined so the page paints instantly
+       while the full style.css loads in the background. Mirrors the same
+       rules in style.css exactly; keep both in sync if you edit either. -->
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#111;line-height:1.6;overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    .container{max-width:1100px;margin:0 auto;padding:0 2rem}
+    .navbar{position:sticky;top:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-bottom:1px solid #e8e8e8;z-index:100;padding:1rem 0}
+    .nav-inner{max-width:1100px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.4rem;font-weight:700;letter-spacing:-0.5px;color:#000}
+    .nav-links{display:flex;gap:2rem}
+    .nav-links a{font-size:0.95rem;font-weight:500;color:#555;transition:color 0.2s}
+    .nav-links a:hover{color:#000}
+    .theme-toggle{background:#f0f0f0;border:none;width:38px;height:38px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+    .theme-toggle:hover{background:#000;transform:scale(1.05)}
+    .hero{text-align:center;padding:1.75rem 1.5rem 1.25rem;background:#000;color:#fff}
+    .hero h1{font-size:clamp(1.5rem,4vw,2.3rem);font-weight:700;line-height:1.2;letter-spacing:-0.5px;margin-bottom:0.5rem}
+    .hero p{font-size:0.92rem;color:#ccc;max-width:520px;margin:0 auto 0.6rem;line-height:1.5}
+    .hero-trust{font-size:0.75rem;color:#aaa;letter-spacing:0.2px}
+    body.dark-mode{background:#0d0d0d;color:#e8e8e8}
+    body.dark-mode .navbar{background:rgba(13,13,13,0.95);border-bottom:1px solid #2a2a2a}
+    body.dark-mode .logo{color:#fff}
+    body.dark-mode .nav-links a{color:#777}
+    body.dark-mode .nav-links a:hover{color:#fff}
+    body.dark-mode .theme-toggle{background:#2a2a2a}
+    body.dark-mode .theme-toggle:hover{background:#fff;color:#000}
+  </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
@@ -337,8 +367,8 @@
             <span>How do I compress an image for a Government form?</span>
             <span class="faq-icon">+</span>
           </button>
-          <div class="faq-answer">
-            <p>Click the Presets tab, select Government, upload your image and it will be automatically compressed to under 200KB in JPG format.</p>
+                   <div class="faq-answer">
+            <p>Click the Presets tab, select Government, upload your image and it will be automatically compressed to under 200KB in JPG format. Need a different exact size? Here's how to <a href="blog-size-compressor.html">compress an image to a specific file size</a>.</p>
           </div>
         </div>
 
