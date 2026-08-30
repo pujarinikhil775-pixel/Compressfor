@@ -38,7 +38,7 @@
       "url": "https://www.compressfor.com"
     },
     "datePublished": "2026-07-14T09:00:00+05:30",
-    "dateModified": "2026-07-14T09:00:00+05:30"
+    "dateModified": "2026-08-26T09:00:00+05:30"
   }
   </script>
   <script type="application/ld+json">
@@ -77,6 +77,22 @@
           "@type": "Answer",
           "text": "Yes. CompressFor's converter is completely free, with no signup required, no watermark added to your images, and no limit on how many files you can convert. Everything runs locally in your browser, so nothing is ever uploaded to a server."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "Do HEIC photos also cause problems on Android?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, for the same reason as Windows. Most Android phones can't open HEIC files natively, so a photo AirDropped or shared from an iPhone to an Android device often shows the same broken-thumbnail problem. Converting to JPG resolves it identically on Android as it does on Windows."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I stop my iPhone from saving photos as HEIC?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Go to Settings, then Camera, then Formats, and select \"Most Compatible\" instead of \"High Efficiency.\" New photos will save as JPG automatically, though this doesn't convert photos you've already taken."
+        }
       }
     ]
   }
@@ -110,7 +126,7 @@
 
       <div class="post-tag">HEIC Converter</div>
       <h1>Why Won't My iPhone Photos Open on Windows? (HEIC to JPG, Explained)</h1>
-      <div class="post-meta">6 min read · HEIC Converter · Updated July 2026</div>
+      <div class="post-meta">9 min read · HEIC Converter · Updated August 2026</div>
 
       <p class="post-lead">If you've ever plugged your iPhone into a Windows laptop, copied over your photos, and double-clicked one only to get a "Windows Photo Viewer can't open this picture" error, you're not doing anything wrong, and your phone isn't broken. Your iPhone has been quietly saving every photo you take in a format called HEIC, and depending on your version of Windows, it may not know what to do with that file at all.</p>
 
@@ -123,6 +139,15 @@
       <h2>How to Tell If Your Photo Is Actually a HEIC File</h2>
       <p>Sometimes the confusion isn't obvious, because the photo might still show a thumbnail on your phone or in cloud storage, and the problem only shows up once you try to open it somewhere else. A quick way to check is to look at the file extension. If it ends in <strong>.heic</strong> or <strong>.heif</strong> rather than <strong>.jpg</strong> or <strong>.jpeg</strong>, that's your answer. On an iPhone, you can also check this by tapping the "i" info icon on a photo in your camera roll, which will show the file format directly.</p>
 
+      <h2>It's Not Just Windows — HEIC Trips Up Android and Older Macs Too</h2>
+      <p>This problem gets framed as a Windows issue because that's where most people first run into it, but the underlying cause — a device that doesn't recognize the HEIC format — shows up elsewhere too. If you've ever AirDropped or shared a photo from an iPhone to a friend's Android phone and it arrived as a broken thumbnail or a file that wouldn't open, that's the exact same problem, just on a different operating system. Most Android phones, regardless of manufacturer, still don't support HEIC natively.</p>
+      <p>Even within Apple's own ecosystem, this can bite you. Older Macs running versions of macOS before Sierra (10.13) don't support HEIC either, and some third-party Mac apps — certain older image editors, some upload tools, and a handful of design programs — still expect JPG specifically and will reject or mishandle a HEIC file even on a Mac that otherwise opens it fine natively.</p>
+      <p>The fix is identical regardless of which device is doing the rejecting: convert to JPG once, and the file becomes universally readable everywhere, on every platform, permanently.</p>
+
+      <h2>How to Stop iPhone Photos From Saving as HEIC in the First Place</h2>
+      <p>Converting after the fact works, but if this keeps happening to you repeatedly, there's a setting that stops the problem before it starts. On your iPhone, go to <strong>Settings → Camera → Formats</strong>, and switch from "High Efficiency" to <strong>"Most Compatible."</strong> This tells your camera to save new photos directly as JPG instead of HEIC, so future photos will open correctly on Windows, Android, or anywhere else without needing to be converted at all.</p>
+      <p>Two things worth knowing about this setting before you flip it. First, it only affects photos taken after you change it — anything already in your camera roll stays in whatever format it was originally saved in, so you'll still need to convert your existing HEIC backlog separately. Second, "Most Compatible" JPG files are typically somewhat larger than the equivalent HEIC file for the same photo, since you're trading Apple's more storage-efficient format for universal compatibility. If storage space is tight, keep HEIC as your default and convert individual photos to JPG only when you actually need to share or upload them — the workflow described earlier in this guide.</p>
+
       <h2>How to Convert HEIC to JPG Without Losing Quality</h2>
       <p>The good news is that fixing this takes seconds, and you don't need to install any software or change your iPhone's camera settings to do it.</p>
       <p><strong>Step 1 —</strong> Go to the <a href="convert.html">Convert tool on CompressFor</a>.</p>
@@ -132,8 +157,15 @@
       <p>Everything happens directly inside your browser, so your photos are never uploaded to a server anywhere. This matters more than people realize, especially if the photos are personal or sensitive, since some free online converters route your images through their own servers before sending them back.</p>
       <p>Because HEIC is already a compressed format, converting it to JPG at a high quality setting keeps the resulting image very close to the original. You may lose a very small, generally invisible amount of detail during the conversion, but for everyday use, sharing, printing, or uploading to a website or application form, there's no noticeable difference to the naked eye.</p>
 
-      <h2>A Quick Note on Bulk Conversion</h2>
+      <h2>How to Bulk Convert an Entire Photo Album at Once</h2>
       <p>If you've ever tried to move an entire photo album off an iPhone and had to convert files one at a time, you already know how tedious that gets. Most free online converters only let you handle one file at a time, or they add a watermark once you go past a handful of images. CompressFor's <a href="convert.html">Convert tool</a> lets you drop in multiple HEIC files at once and convert the entire batch together, which is especially useful if you're clearing out a backup, prepping photos for a portfolio, or just tired of doing this one photo at a time.</p>
+      <p>A few things worth knowing before converting a large batch rather than a single photo:</p>
+      <ul>
+        <li><strong>Every file in the batch converts to the same output format.</strong> If you need some photos as JPG and others as PNG (for example, keeping transparency on a few graphics mixed in with regular photos), that needs to be done as two separate batches rather than one mixed run.</li>
+        <li><strong>Larger batches take proportionally longer, but still run entirely in your browser.</strong> A handful of photos is instant; a few hundred takes longer but doesn't require waiting on an upload to a remote server, since nothing leaves your device.</li>
+        <li><strong>Check a couple of results from the batch, not just the first file.</strong> Occasionally a corrupted or unusually formatted source file in a large batch won't convert cleanly — spotting this in a spot-check is far faster than discovering it after you've already deleted the HEIC originals.</li>
+      </ul>
+      <p>This is also the point where it's worth deciding whether you actually want to keep the original HEIC files afterward. Since HEIC is more storage-efficient than JPG, some people keep both versions — HEIC for storage, JPG for sharing and compatibility — rather than deleting the originals once converted.</p>
 
       <div class="post-cta">
         <h3>Convert your HEIC photos right now</h3>
@@ -155,8 +187,15 @@
       <h3>Is a HEIC to JPG converter free to use?</h3>
       <p>Yes. CompressFor's converter is completely free, with no signup required, no watermark added to your images, and no limit on how many files you can convert. Everything runs locally in your browser, so nothing is ever uploaded to a server.</p>
 
+      <h3>Do HEIC photos also cause problems on Android?</h3>
+      <p>Yes, for the same reason as Windows. Most Android phones can't open HEIC files natively, so a photo AirDropped or shared from an iPhone to an Android device often shows the same broken-thumbnail problem. Converting to JPG resolves it identically on Android as it does on Windows.</p>
+
+      <h3>Can I stop my iPhone from saving photos as HEIC?</h3>
+      <p>Yes. Go to Settings, then Camera, then Formats, and select "Most Compatible" instead of "High Efficiency." New photos will save as JPG automatically, though this doesn't convert photos you've already taken.</p>
+
       <h2>Related Guides</h2>
       <ul>
+        <li><a href="convert.html">Convert Image Format Tool</a></li>
         <li><a href="blog-size-compressor.html">What to Do If the File Is Too Large</a></li>
         <li><a href="blog-compress-image-50kb.html">How to Compress Your Image to 50KB</a></li>
         <li><a href="blog-passport-photo-size-converter.html">Passport Photo Size Converter Online Free</a></li>

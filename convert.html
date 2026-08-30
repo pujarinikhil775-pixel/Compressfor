@@ -25,6 +25,62 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I convert PNG to JPG for free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — upload your PNG, choose JPG as the output format, and download instantly. No signup needed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does converting to WebP reduce quality?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "WebP typically produces smaller files than JPG at the same visual quality, so there's usually no noticeable loss."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I convert camera RAW files like CR2 to JPG?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — upload your CR2 or TIFF file from a DSLR or mirrorless camera, choose JPG as the output, and it converts directly in your browser without needing separate camera software installed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I convert multiple images at the same time?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — select or drag in multiple files at once, and each one converts together in a single batch, rather than needing to upload and download one image at a time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why did my transparent PNG turn white after converting to JPG?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JPG doesn't support transparency, so any transparent area in a PNG gets filled with a solid background color, usually white, when converted. If you need to keep transparency, convert to WebP instead, which supports it, or keep the file as PNG."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the difference between JPG, PNG, and WebP?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JPG is best for photos and produces small files but doesn't support transparency. PNG supports transparency and is lossless, making it better for graphics and screenshots, but produces larger files for photos. WebP generally matches JPG's small file size while supporting transparency like PNG, making it a strong default for the web when the destination supports it."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -84,6 +140,42 @@
   </section>
 
   <section class="homepage-info" style="padding:3rem 2rem; text-align:center; max-width:750px; margin:0 auto;">
+    <h2 style="font-size:1.6rem; margin-bottom:1rem;">JPG vs PNG vs WebP: Which Format Should You Use?</h2>
+    <p style="color:#555; line-height:1.7; font-size:1rem;">
+      The right format depends on what's actually in the image and where it's going, not personal preference. Here's the practical difference between the three formats this tool converts between:
+    </p>
+    <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.92rem;text-align:left;">
+      <thead>
+        <tr style="border-bottom:2px solid #000">
+          <th style="padding:0.6rem 0.8rem 0.6rem 0">Format</th>
+          <th style="padding:0.6rem 0.8rem">Best For</th>
+          <th style="padding:0.6rem 0">Transparency</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #eee">
+          <td style="padding:0.6rem 0.8rem 0.6rem 0"><strong>JPG</strong></td>
+          <td style="padding:0.6rem 0.8rem">Photos, smallest file size for continuous-tone images</td>
+          <td style="padding:0.6rem 0">Not supported</td>
+        </tr>
+        <tr style="border-bottom:1px solid #eee">
+          <td style="padding:0.6rem 0.8rem 0.6rem 0"><strong>PNG</strong></td>
+          <td style="padding:0.6rem 0.8rem">Screenshots, logos, graphics with sharp edges or text</td>
+          <td style="padding:0.6rem 0">Supported</td>
+        </tr>
+        <tr>
+          <td style="padding:0.6rem 0.8rem 0.6rem 0"><strong>WebP</strong></td>
+          <td style="padding:0.6rem 0.8rem">Websites — smaller than JPG or PNG at similar quality</td>
+          <td style="padding:0.6rem 0">Supported</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="color:#555; line-height:1.7; font-size:1rem;">
+      A quick rule of thumb: if it's a photograph, convert to JPG unless the destination specifically asks for something else. If it needs a transparent background — a logo over a colored page, an icon, a product cutout — convert to PNG or WebP instead, since JPG will fill any transparent area with a solid color. For websites specifically, WebP is usually the better default when the platform supports it, since it combines JPG-like file sizes with PNG-like transparency support.
+    </p>
+  </section>
+
+  <section class="homepage-info" style="padding:3rem 2rem; text-align:center; max-width:750px; margin:0 auto;">
     <h2 style="font-size:1.6rem; margin-bottom:1rem;">Why Convert Image Formats in the First Place?</h2>
     <p style="color:#555; line-height:1.7; font-size:1rem;">
       Not every website, form, or app accepts every image format. A photo saved as PNG might be rejected by a portal that only takes JPG, or a photo from a professional camera might open as a format your laptop doesn't recognize at all. Converting the format doesn't change what's in the photo, it just changes how that information is packaged, so the picture itself stays exactly the same.
@@ -94,6 +186,20 @@
     <p style="color:#555; line-height:1.7; font-size:1rem; margin-top:1rem;">
       If you're dealing with a whole folder of images rather than just one, doing this file by file gets tedious fast. This tool lets you batch convert PNG to JPG online, whether you're clearing out an old photo backup or converting a full album at once. It also handles formats that trip up most converters, including camera files like CR2 and TIFF, so if your DSLR or mirrorless camera exports files your phone or laptop won't open directly, you can convert them here without extra software. If your photos are coming from an iPhone specifically, HEIC has its own separate quirks — <a href="blog-heic-to-jpg-windows.html">here's a full breakdown of why that happens and how to fix it</a>.
     </p>
+  </section>
+
+  <section class="homepage-info" style="padding:3rem 2rem; text-align:center; max-width:750px; margin:0 auto;">
+    <h2 style="font-size:1.6rem; margin-bottom:1rem;">Common Image Conversion Problems (and Fixes)</h2>
+    <p style="color:#555; line-height:1.7; font-size:1rem;">
+      Most conversion issues fall into a handful of predictable categories. Here are the ones people run into most often:
+    </p>
+    <ul style="text-align:left; color:#555; line-height:1.9; font-size:1rem; margin-top:1rem; padding-left:1.2rem;">
+      <li><strong>A transparent PNG turned white or black after converting to JPG.</strong> JPG doesn't support transparency at all, so any transparent area gets filled with a solid color during conversion. If you need to keep the transparency, convert to WebP instead, or leave the file as PNG.</li>
+      <li><strong>A photo from an iPhone won't open on Windows.</strong> iPhones save photos as HEIC by default, which many Windows apps can't read without an extra codec. Converting to JPG first fixes this permanently — <a href="blog-heic-to-jpg-windows.html">here's the full explanation and fix</a>.</li>
+      <li><strong>A camera file (CR2, TIFF) won't open in a normal photo viewer.</strong> These are professional or RAW-adjacent formats meant for editing software, not everyday viewing apps. Converting to JPG makes the file openable anywhere, at the cost of losing the extra editing headroom RAW files provide.</li>
+      <li><strong>The converted file looks softer or slightly different than the original.</strong> This is expected when converting to a lossy format like JPG — a small amount of quality is traded for a smaller file. It's usually invisible at high quality settings but becomes more noticeable if the file is converted and compressed repeatedly.</li>
+      <li><strong>A WebP file won't open in older software.</strong> WebP is widely supported by modern browsers but not universally supported by older image editors or operating systems. If a specific destination rejects WebP, JPG remains the safest universal fallback.</li>
+    </ul>
   </section>
 
  <section class="faq-section">
@@ -115,6 +221,14 @@
         <div class="faq-item">
           <button class="faq-question" onclick="toggleFaq(this)"><span>Can I convert multiple images at the same time?</span><span class="faq-icon">+</span></button>
           <div class="faq-answer"><p>Yes — select or drag in multiple files at once, and each one converts together in a single batch, rather than needing to upload and download one image at a time.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)"><span>Why did my transparent PNG turn white after converting to JPG?</span><span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>JPG doesn't support transparency, so any transparent area in a PNG gets filled with a solid background color, usually white, when converted. If you need to keep transparency, convert to WebP instead, which supports it, or keep the file as PNG.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)"><span>What's the difference between JPG, PNG, and WebP?</span><span class="faq-icon">+</span></button>
+          <div class="faq-answer"><p>JPG is best for photos and produces small files but doesn't support transparency. PNG supports transparency and is lossless, making it better for graphics and screenshots, but produces larger files for photos. WebP generally matches JPG's small file size while supporting transparency like PNG, making it a strong default for the web when the destination supports it.</p></div>
         </div>
       </div>
     </div>
