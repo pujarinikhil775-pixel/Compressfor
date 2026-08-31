@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MFBTT6FF5S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-MFBTT6FF5S');
+  </script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JPEG Quantization Tables Explained: Why Quality 80 Isn't Always Quality 80 | CompressFor</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23fff' stroke='%23000' stroke-width='6'/><text y='54' x='50' text-anchor='middle' font-size='38' font-family='Inter,sans-serif' font-weight='700' fill='%23000'>CF</text></svg>"/>
+  <meta name="description" content="A quality 80 JPEG from one tool isn't the same as quality 80 from another. Here's what quantization tables actually are, with real reference data, and why the quality number alone doesn't tell you what you're getting."/>
+  <meta name="keywords" content="jpeg quantization table, jpeg quantization quality, jpeg quality settings explained, what is a quantization table, jpeg compression algorithm, why does jpeg quality differ between tools"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://www.compressfor.com/blog-jpeg-quantization-tables.html"/>
+  <meta property="og:title" content="JPEG Quantization Tables Explained: Why Quality 80 Isn't Always Quality 80"/>
+  <meta property="og:description" content="A quality 80 JPEG from one tool isn't the same as quality 80 from another. Here's what quantization tables actually are, with real reference data."/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://www.compressfor.com/blog-jpeg-quantization-tables.html"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "JPEG Quantization Tables Explained: Why Quality 80 Isn't Always Quality 80",
+    "description": "A quality 80 JPEG from one tool isn't the same as quality 80 from another. Here's what quantization tables actually are, with real reference data, and why the quality number alone doesn't tell you what you're getting.",
+    "author": { "@type": "Organization", "name": "CompressFor", "url": "https://www.compressfor.com" },
+    "publisher": { "@type": "Organization", "name": "CompressFor", "url": "https://www.compressfor.com" },
+    "datePublished": "2026-08-31T09:00:00+05:30",
+    "dateModified": "2026-08-31T09:00:00+05:30"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a JPEG quantization table?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A quantization table is an 8x8 grid of numbers that controls how much detail is discarded from each 8x8 block of pixels during JPEG compression. Higher numbers in the table mean more detail is thrown away in that part of the frequency spectrum, which is how JPEG trades quality for file size."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does quality 80 look different between two different tools?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The JPEG standard defines how quantization tables are used, but it doesn't mandate a single official mapping from a 0-100 quality number to specific table values. Different encoders scale the base tables differently, so the same quality number can produce different actual compression levels depending on which software made the file."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is a higher quality number always a bigger file?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Within the same encoder and the same image, yes. But across different images or different encoders, no. A simple image at quality 90 can be smaller than a detailed image at quality 60, because quantization tables interact with image content, not just the quality number in isolation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does this affect exact-file-size compression?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, directly. It's the reason exact-size compressors can't simply calculate the right quality number in one step and have to search for it instead, trying different quality levels and checking the resulting file size until it lands close to the target."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I see the quantization table used in my own JPEG file?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, with the right tool. JPEG files store their quantization tables directly in the file header, and dedicated inspection tools can read and display them, though most everyday photo editors and compressors don't expose this information in their normal interface."
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="blog.css"/>
+  <link rel="stylesheet" href="blog-post.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">CompressFor</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+  <article class="post-wrap">
+    <div class="post-container">
+
+      <div class="post-tag">How It Works</div>
+      <h1>JPEG Quantization Tables Explained: Why Quality 80 Isn't Always Quality 80</h1>
+      <div class="post-meta">9 min read · How It Works · Updated August 2026</div>
+
+      <p class="post-lead">Set a JPEG to "quality 80" in one tool, then open the same photo in a different editor, set it to quality 80 there too, and compare the two files. They won't match — not in file size, not in sharpness, sometimes not even close. This isn't a bug in either tool. It's because "quality 80" was never a precise, universal number to begin with. It's a convenience layer sitting on top of the thing that actually controls compression: the quantization table.</p>
+
+      <h2>A Quick Primer on How JPEG Actually Compresses an Image</h2>
+      <p>JPEG doesn't compress a photo as one continuous image. It chops the picture into a grid of 8x8 pixel blocks and processes each block independently. For each block, it runs a mathematical transform called the Discrete Cosine Transform (DCT), which converts the raw pixel values into a set of 64 frequency coefficients — essentially a description of how much of the block's detail lives in coarse patterns versus fine, high-frequency detail.</p>
+      <p>Here's the part that actually creates the compression: those 64 coefficients then get divided by 64 corresponding numbers from a quantization table, and the results are rounded to the nearest integer. Rounding is where information gets thrown away — a coefficient that was 47.3 might round down to 47, but a small one like 2.1 divided by a large quantization value might round all the way down to 0. Once enough of those high-frequency coefficients round to zero, they take almost no space at all to store, which is where the file-size savings actually come from.</p>
+
+      <h2>What a Quantization Table Actually Looks Like</h2>
+      <p>A quantization table is just an 8x8 grid of numbers, one for each of the 64 DCT coefficients in a block. Small numbers near the top-left preserve more detail (since that corner represents the coarse, low-frequency information the eye is most sensitive to); larger numbers toward the bottom-right discard more of the fine detail the eye is least likely to notice missing.</p>
+      <p>The JPEG standard itself doesn't mandate one specific table — it provides example tables in its annex that became the de facto baseline nearly every encoder builds from. Here's the standard luminance (brightness) table defined in the JPEG specification:</p>
+      <div style="overflow-x:auto; margin:1.5rem 0;">
+      <table style="border-collapse:collapse; font-family:monospace; font-size:0.85rem; margin:0 auto;">
+        <tbody>
+          <tr><td style="border:1px solid #ccc;padding:4px 8px">16</td><td style="border:1px solid #ccc;padding:4px 8px">11</td><td style="border:1px solid #ccc;padding:4px 8px">10</td><td style="border:1px solid #ccc;padding:4px 8px">16</td><td style="border:1px solid #ccc;padding:4px 8px">24</td><td style="border:1px solid #ccc;padding:4px 8px">40</td><td style="border:1px solid #ccc;padding:4px 8px">51</td><td style="border:1px solid #ccc;padding:4px 8px">61</td></tr>
+          <tr><td style="border:1px solid #ccc;padding:4px 8px">12</td><td style="border:1px solid #ccc;padding:4px 8px">12</td><td style="border:1px solid #ccc;padding:4px 8px">14</td><td style="border:1px solid #ccc;padding:4px 8px">19</td><td style="border:1px solid #ccc;padding:4px 8px">26</td><td style="border:1px solid #ccc;padding:4px 8px">58</td><td style="border:1px solid #ccc;padding:4px 8px">60</td><td style="border:1px solid #ccc;padding:4px 8px">55</td></tr>
+          <tr><td style="border:1px solid #ccc;padding:4px 8px">14</td><td style="border:1px solid #ccc;padding:4px 8px">13</td><td style="border:1px solid #ccc;padding:4px 8px">16</td><td style="border:1px solid #ccc;padding:4px 8px">24</td><td style="border:1px solid #ccc;padding:4px 8px">40</td><td style="border:1px solid #ccc;padding:4px 8px">57</td><td style="border:1px solid #ccc;padding:4px 8px">69</td><td style="border:1px solid #ccc;padding:4px 8px">56</td></tr>
+          <tr><td style="border:1px solid #ccc;padding:4px 8px">14</td><td style="border:1px solid #ccc;padding:4px 8px">17</td><td style="border:1px solid #ccc;padding:4px 8px">22</td><td style="border:1px solid #ccc;padding:4px 8px">29</td><td style="border:1px solid #ccc;padding:4px 8px">51</td><td style="border:1px solid #ccc;padding:4px 8px">87</td><td style="border:1px solid #ccc;padding:4px 8px">80</td><td style="border:1px solid #ccc;padding:4px 8px">62</td></tr>
+          <tr><td style="border:1px solid #ccc;padding:4px 8px">18</td><td style="border:1px solid #ccc;padding:4px 8px">22</td><td style="border:1px solid #ccc;padding:4px 8px">37</td><td style="border:1px solid #ccc;padding:4px 8px">56</td><td style="border:1px solid #ccc;padding:4px 8px">68</td><td style="border:1px solid #ccc;padding:4px 8px">109</td><td style="border:1px solid #ccc;padding:4px 8px">103</td><td style="border:1px solid #ccc;padding:4px 8px">77</td></tr>
+          <tr><td style="border:1px solid #ccc;padding:4px 8px">24</td><td style="border:1px solid #ccc;padding:4px 8px">35</td><td style="border:1px solid #ccc;padding:4px 8px">55</td><td style="border:1px solid #ccc;padding:4px 8px">64</td><td style="border:1px solid #ccc;padding:4px 8px">81</td><td style="border:1px solid #ccc;padding:4px 8px">104</td><td style="border:1px solid #ccc;padding:4px 8px">113</td><td style="border:1px solid #ccc;padding:4px 8px">92</td></tr>
+          <tr><td style="border:1px solid #ccc;padding:4px 8px">49</td><td style="border:1px solid #ccc;padding:4px 8px">64</td><td style="border:1px solid #ccc;padding:4px 8px">78</td><td style="border:1px solid #ccc;padding:4px 8px">87</td><td style="border:1px solid #ccc;padding:4px 8px">103</td><td style="border:1px solid #ccc;padding:4px 8px">121</td><td style="border:1px solid #ccc;padding:4px 8px">120</td><td style="border:1px solid #ccc;padding:4px 8px">101</td></tr>
+          <tr><td style="border:1px solid #ccc;padding:4px 8px">72</td><td style="border:1px solid #ccc;padding:4px 8px">92</td><td style="border:1px solid #ccc;padding:4px 8px">95</td><td style="border:1px solid #ccc;padding:4px 8px">98</td><td style="border:1px solid #ccc;padding:4px 8px">112</td><td style="border:1px solid #ccc;padding:4px 8px">100</td><td style="border:1px solid #ccc;padding:4px 8px">103</td><td style="border:1px solid #ccc;padding:4px 8px">99</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="text-align:center; color:#888; font-size:0.85rem; margin-top:-0.8rem;">The standard JPEG luminance quantization table (quality 50 baseline)</p>
+      <p>Notice the pattern: small values (10-20) cluster in the top-left, climbing to over 100 in the bottom-right. That's the table doing exactly what was described above — protecting the coarse detail the eye cares about most, sacrificing the fine detail first. There's a separate, more aggressive table used for color information (chrominance), since human vision is far less sensitive to color detail than to brightness detail, which is part of why JPEG can compress color images so effectively without obvious quality loss.</p>
+
+      <h2>How a "Quality" Number Becomes an Actual Table</h2>
+      <p>This base table corresponds to roughly quality 50. To get other quality levels, encoders scale every value in the table up or down using a formula that traces back to the Independent JPEG Group's original reference implementation, which most modern encoders still follow in spirit:</p>
+      <ul>
+        <li>For quality below 50: <strong>scale factor = 5000 ÷ quality</strong></li>
+        <li>For quality 50 and above: <strong>scale factor = 200 − (quality × 2)</strong></li>
+      </ul>
+      <p>Each value in the base table is then multiplied by that scale factor, divided by 100, and rounded — with the result clamped so no table value ever falls below 1. At quality 100, most values collapse down toward 1, meaning almost no information gets discarded (this is why quality 100 files are so much larger, not because of some separate "maximum quality mode," but because the quantization table itself becomes nearly transparent). At low quality settings, the scale factor grows large, and even the smallest base values balloon into large divisors that discard most of the fine detail.</p>
+      <p>Here's what that formula actually produces when you run the numbers, tracking two specific coefficients from the base table above — the most-protected top-left value (16) and a mid-frequency value further into the table (40):</p>
+      <div style="overflow-x:auto; margin:1.5rem 0;">
+      <table style="border-collapse:collapse; width:100%; max-width:520px; margin:0 auto; font-size:0.9rem;">
+        <thead>
+          <tr style="border-bottom:2px solid #000">
+            <th style="text-align:left; padding:0.5rem 0.8rem 0.5rem 0;">Quality</th>
+            <th style="text-align:left; padding:0.5rem 0.8rem;">Scale Factor</th>
+            <th style="text-align:left; padding:0.5rem 0.8rem;">Base 16 becomes</th>
+            <th style="text-align:left; padding:0.5rem 0;">Base 40 becomes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #eee"><td style="padding:0.5rem 0.8rem 0.5rem 0;">10</td><td style="padding:0.5rem 0.8rem;">500.0</td><td style="padding:0.5rem 0.8rem;">80</td><td style="padding:0.5rem 0;">200</td></tr>
+          <tr style="border-bottom:1px solid #eee"><td style="padding:0.5rem 0.8rem 0.5rem 0;">30</td><td style="padding:0.5rem 0.8rem;">166.7</td><td style="padding:0.5rem 0.8rem;">27</td><td style="padding:0.5rem 0;">67</td></tr>
+          <tr style="border-bottom:1px solid #eee"><td style="padding:0.5rem 0.8rem 0.5rem 0;">50</td><td style="padding:0.5rem 0.8rem;">100.0</td><td style="padding:0.5rem 0.8rem;">16</td><td style="padding:0.5rem 0;">40</td></tr>
+          <tr style="border-bottom:1px solid #eee"><td style="padding:0.5rem 0.8rem 0.5rem 0;">70</td><td style="padding:0.5rem 0.8rem;">60.0</td><td style="padding:0.5rem 0.8rem;">10</td><td style="padding:0.5rem 0;">24</td></tr>
+          <tr style="border-bottom:1px solid #eee"><td style="padding:0.5rem 0.8rem 0.5rem 0;">90</td><td style="padding:0.5rem 0.8rem;">20.0</td><td style="padding:0.5rem 0.8rem;">3</td><td style="padding:0.5rem 0;">8</td></tr>
+          <tr><td style="padding:0.5rem 0.8rem 0.5rem 0;">100</td><td style="padding:0.5rem 0.8rem;">0.0</td><td style="padding:0.5rem 0.8rem;">1</td><td style="padding:0.5rem 0;">1</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="text-align:center; color:#888; font-size:0.85rem; margin-top:-0.8rem;">Computed directly from the standard IJG scaling formula — quality 50 reproduces the base table exactly, by design.</p>
+      <p>A few things worth noticing in that table. Quality 50 reproduces the base table values exactly (16 and 40) — that's not a coincidence, it's why the standard base table is defined at quality 50 in the first place, as the fixed midpoint the formula scales around. Below quality 50, the scale factor grows sharply — dropping from quality 50 to quality 10 multiplies the divisor by 5x, which is a much bigger jump than the equivalent step from quality 50 to quality 90 in the other direction. This asymmetry is exactly why the low end of a quality slider feels so much more sensitive than the high end: the same 10-point movement near the bottom of the scale swings the actual compression far more aggressively than the same 10-point movement near the top.</p>
+
+      <h2>Why Quality 80 in One Tool Isn't Quality 80 in Another</h2>
+      <p>Here's where the inconsistency actually comes from. The scaling formula above is a convention, not a hard requirement of the JPEG standard — the standard defines how quantization tables are used to encode and decode an image, but it never mandates that every encoder must derive its tables from this exact base table using this exact formula. In practice:</p>
+      <ul>
+        <li><strong>Different encoders start from different base tables.</strong> Some, like the classic IJG library, use the table shown above. Others, including newer encoders like mozjpeg, use custom-tuned base tables designed to look better to the human eye at the same file size, even though the "quality" number reported is nominally on the same 0-100 scale.</li>
+        <li><strong>Some software uses an entirely different quality scale.</strong> Photoshop's "Save for Web" quality setting, for instance, runs on a 0-12 scale internally, which gets mapped to a JPEG quality percentage in a way that doesn't line up cleanly with the standard 0-100 scale used elsewhere.</li>
+        <li><strong>Browsers' built-in JPEG encoders</strong> — the ones powering browser-based tools like CompressFor, since everything runs through the Canvas API rather than a server — follow the browser's own implementation, which in Chrome and most Chromium-based browsers is built on libjpeg-turbo, generally tracking the standard table and formula closely, though exact behavior can still shift slightly between browser versions.</li>
+      </ul>
+      <p>The practical result: "quality 80" is a meaningful, consistent number *within* one tool, one version, one encoder. It is not a portable, universal measurement you can compare across different software and expect identical results from.</p>
+
+      <h2>Why This Matters for Compressing to an Exact File Size</h2>
+      <p>This directly explains something covered in our <a href="blog-size-compressor.html">guide on why compressing to an exact file size is harder than it looks</a>: a single quality number doesn't map predictably to a file size, because the quantization table it produces interacts with the actual content of the image. A quantization table that zeroes out fine detail saves almost no space on a plain, low-detail image (there wasn't much fine detail to discard in the first place), but saves enormous space on a busy, highly-detailed photo.</p>
+      <p>This is also exactly why exact-size compressors can't just calculate the "right" quality number in a single step and move on. Since quality doesn't map predictably to file size — both because of image content and because of encoder-specific table differences — the only reliable approach is to actually try a quality level, measure the resulting file size, and adjust from there, narrowing in on the target through repeated attempts rather than a single calculation.</p>
+
+      <h2>What This Means in Practice</h2>
+      <p>A few practical takeaways from all of this:</p>
+      <ul>
+        <li><strong>Don't compare "quality" numbers across different tools.</strong> Quality 85 in one editor and quality 85 in another can produce visibly different results. If you're chasing a specific look or file size, judge the actual output, not the number on the slider.</li>
+        <li><strong>Re-saving a JPEG at the same quality number repeatedly still degrades it.</strong> Each save re-runs the full DCT-and-quantize process on data that's already lost information from the previous save, compounding the loss even if the quality number stays identical.</li>
+        <li><strong>A quality setting around 75-85 is a safe default for photos</strong> across nearly all encoders, since this range sits comfortably above the point where compression artifacts become visible on most images, regardless of exactly which base table an encoder uses.</li>
+        <li><strong>If you need a specific file size rather than a specific quality number,</strong> use a tool built to search for that target directly rather than guessing at a quality percentage — see our guide on <a href="blog-compress-image-50kb.html">compressing an image to exactly 50KB</a> for the practical version of this.</li>
+      </ul>
+      <p>None of this changes how you should actually use a compressor day to day — for that, a quality slider and a size target are still the right tools. But understanding what's actually happening underneath explains why "quality 80" behaves the way it does, and why exact-size compression has to work the way it works rather than through a simpler shortcut.</p>
+
+      <div class="post-cta">
+        <h3>See exact-size compression in action</h3>
+        <p>Compress any photo to a precise KB target — free, private, works in your browser.</p>
+        <a href="index.html" class="btn-primary">Compress an Image Free →</a>
+      </div>
+
+      <h4>Frequently Asked Questions</h4>
+
+      <h3>What is a JPEG quantization table?</h3>
+      <p>A quantization table is an 8x8 grid of numbers that controls how much detail is discarded from each 8x8 block of pixels during JPEG compression. Higher numbers in the table mean more detail is thrown away in that part of the frequency spectrum, which is how JPEG trades quality for file size.</p>
+
+      <h3>Why does quality 80 look different between two different tools?</h3>
+      <p>The JPEG standard defines how quantization tables are used, but it doesn't mandate a single official mapping from a 0-100 quality number to specific table values. Different encoders scale the base tables differently, so the same quality number can produce different actual compression levels depending on which software made the file.</p>
+
+      <h3>Is a higher quality number always a bigger file?</h3>
+      <p>Within the same encoder and the same image, yes. But across different images or different encoders, no. A simple image at quality 90 can be smaller than a detailed image at quality 60, because quantization tables interact with image content, not just the quality number in isolation.</p>
+
+      <h3>Does this affect exact-file-size compression?</h3>
+      <p>Yes, directly. It's the reason exact-size compressors can't simply calculate the right quality number in one step and have to search for it instead, trying different quality levels and checking the resulting file size until it lands close to the target.</p>
+
+      <h3>Can I see the quantization table used in my own JPEG file?</h3>
+      <p>Yes, with the right tool. JPEG files store their quantization tables directly in the file header, and dedicated inspection tools can read and display them, though most everyday photo editors and compressors don't expose this information in their normal interface.</p>
+
+      <h2>Related Guides</h2>
+      <ul>
+        <li><a href="blog-size-compressor.html">What to Do If the File Is Too Large</a></li>
+        <li><a href="blog-compress-image-50kb.html">How to Compress Your Image to 50KB</a></li>
+        <li><a href="blog-image-size-compressor.html">How to Reduce Image Size Without Losing Quality</a></li>
+        <li><a href="blog-how-browsers-decode-images.html">How Browsers Decode and Render Your Images</a></li>
+        <li><a href="blog-image-compressor.html">What is an Image Compressor and How Does It Work?</a></li>
+      </ul>
+
+    </div>
+  </article>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a href="index.html" class="logo">CompressFor</a>
+      <p>Free image compression & conversion. Your files never leave your device.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="presets.html">Presets</a>
+        <a href="convert.html">Convert</a>
+        <a href="passport-photo-tool.html">Passport Photo</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <p class="footer-copy">© 2026 CompressFor. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      const saved = localStorage.getItem('compressfor-theme');
+      if (saved === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    })();
+  </script>
+
+</body>
+</html>
