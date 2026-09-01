@@ -1,32 +1,17 @@
 // ===== FAQ ACCORDION =====
 function toggleFaq(btn) {
   const item = btn.closest('.faq-item');
-  const answer = item.querySelector('.faq-answer');
   const isActive = item.classList.contains('active');
 
   // Close any other open FAQ first — only one open at a time, like Google's FAQ pages
   document.querySelectorAll('.faq-item.active').forEach(openItem => {
     if (openItem !== item) {
       openItem.classList.remove('active');
-      openItem.querySelector('.faq-answer').style.maxHeight = null;
     }
   });
 
-  if (isActive) {
-    item.classList.remove('active');
-    answer.style.maxHeight = null;
-  } else {
-    item.classList.add('active');
-    answer.style.maxHeight = answer.scrollHeight + 'px';
-  }
+  item.classList.toggle('active', !isActive);
 }
-
-// Keep open answers correctly sized if the window is resized (text reflow)
-window.addEventListener('resize', () => {
-  document.querySelectorAll('.faq-item.active .faq-answer').forEach(answer => {
-    answer.style.maxHeight = answer.scrollHeight + 'px';
-  });
-});
 
 // ===== TARGET KB FEATURE =====
 function toggleTargetKb() {
