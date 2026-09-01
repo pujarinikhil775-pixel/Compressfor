@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MFBTT6FF5S"></script>
+  <!-- Google tag (gtag.js) — deferred until user interaction for better performance -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-MFBTT6FF5S');
+
+    (function() {
+      var gtagLoaded = false;
+      function loadGtagScript() {
+        if (gtagLoaded) return;
+        gtagLoaded = true;
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MFBTT6FF5S';
+        document.head.appendChild(script);
+        ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(function(evt) {
+          window.removeEventListener(evt, loadGtagScript);
+        });
+      }
+      ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(function(evt) {
+        window.addEventListener(evt, loadGtagScript, { once: true, passive: true });
+      });
+      setTimeout(loadGtagScript, 5000);
+    })();
   </script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>

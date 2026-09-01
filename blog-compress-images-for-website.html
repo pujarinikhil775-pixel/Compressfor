@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MFBTT6FF5S"></script>
+  <!-- Google tag (gtag.js) — deferred until user interaction for better performance -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-MFBTT6FF5S');
+
+    (function() {
+      var gtagLoaded = false;
+      function loadGtagScript() {
+        if (gtagLoaded) return;
+        gtagLoaded = true;
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MFBTT6FF5S';
+        document.head.appendChild(script);
+        ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(function(evt) {
+          window.removeEventListener(evt, loadGtagScript);
+        });
+      }
+      ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(function(evt) {
+        window.addEventListener(evt, loadGtagScript, { once: true, passive: true });
+      });
+      setTimeout(loadGtagScript, 5000);
+    })();
   </script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -90,6 +108,22 @@
       },
       {
         "@type": "Question",
+        "name": "Is AVIF better than WebP for website images?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AVIF typically produces files 10-20% smaller than WebP at similar visual quality, and modern browsers support it. WebP remains the more pragmatic default for most sites due to faster encoding and slightly broader compatibility, but AVIF is worth using specifically on high-traffic pages where every extra kilobyte saved compounds into real performance gains."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is CLS and how do images affect it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cumulative Layout Shift measures how much content unexpectedly moves around as a page loads. Images without explicit width and height attributes in the HTML cause this, since the browser doesn't know how much space to reserve before the image finishes loading. Adding these attributes fixes it at no cost to file size."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "What image size is best for website page speed?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -148,7 +182,7 @@
       </div>
 
       <h2>Why Image Size Directly Affects Your PageSpeed Score</h2>
-      <p>Google identifies Largest Contentful Paint (LCP) as one of the three Core Web Vitals used to evaluate page experience. In many websites, the LCP element is a large hero image, making image optimization one of the quickest ways to improve loading performance. An unoptimized 3-5MB photo straight from a camera or phone can single-handedly tank your LCP score, even if every other part of your site is fast.</p>
+      <p>Google identifies Largest Contentful Paint (LCP) as one of the three Core Web Vitals used to evaluate page experience. Google's "good" threshold is LCP under 2.5 seconds, measured from real visitor data rather than a lab simulation; anything over 4 seconds is rated "poor." In many websites, the LCP element is a large hero image, making image optimization one of the quickest ways to move a page from "poor" into "good" — an unoptimized 3-5MB photo straight from a camera or phone can single-handedly push LCP past 4 seconds on its own, even if every other part of your site is fast.</p>
 
       <div class="flow-diagram" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:0.5rem; margin:2rem 0; padding:1.5rem; background:#f9f9f9; border-radius:14px; border:1.5px solid #e8e8e8;">
         <span style="background:#000; color:#fff; padding:0.5rem 1rem; border-radius:8px; font-size:0.85rem; font-weight:600; white-space:nowrap;">Original Image</span>
@@ -176,12 +210,19 @@
       </ul>
       <p>This is why image optimization is treated as foundational SEO technical hygiene, not just a performance nice-to-have.</p>
 
-      <h2>The Right Format: WebP vs. JPG vs. PNG</h2>
+      <h2>The Image Mistake That Hurts a Different Metric: CLS</h2>
+      <p>Compression fixes loading speed, but a separate Core Web Vital — Cumulative Layout Shift (CLS) — gets hurt by a different, unrelated image mistake: not telling the browser an image's dimensions in advance. Google's "good" threshold for CLS is under 0.1, and anything over 0.25 is rated "poor."</p>
+      <p>Here's why this happens: if your HTML doesn't specify an image's <code>width</code> and <code>height</code> attributes, the browser doesn't know how much space to reserve for it before the file finishes downloading. Text and other elements load first, the image pops in a moment later, and everything visually jumps to make room — that jump is exactly what CLS measures. A perfectly compressed image can still cause a bad CLS score if this one detail is missing from the HTML.</p>
+      <p>The fix costs nothing in file size: always include explicit <code>width</code> and <code>height</code> attributes on every <code>&lt;img&gt;</code> tag, even though CSS controls the final displayed size. This lets the browser reserve the correct space immediately, before the image data has even arrived.</p>
+
+      <h2>The Right Format: AVIF vs. WebP vs. JPG vs. PNG</h2>
       <ul>
-        <li><strong>WebP</strong> — the best general choice for website images in 2026, typically 25-35% smaller than JPEG at equivalent visual quality, with broad browser support</li>
+        <li><strong>AVIF</strong> — the newest format, often 10-20% smaller than WebP at similar visual quality, with support across all current major browsers. The strongest choice when squeezing out every extra kilobyte matters most, though slightly slower to encode than WebP.</li>
+        <li><strong>WebP</strong> — the safer default for most sites in 2026: typically 25-35% smaller than JPEG at equivalent visual quality, with broad, well-established browser support and faster encoding than AVIF.</li>
         <li><strong>JPG</strong> — a safe fallback for older browsers, good for photographs</li>
         <li><strong>PNG</strong> — only use this for images that genuinely need transparency (logos, icons); using PNG for photographs bloats file size for no visual benefit</li>
       </ul>
+      <p>In practice, WebP remains the pragmatic default — the file size difference against AVIF is usually small enough not to matter, while WebP's faster, more universally consistent encoding makes it the lower-risk choice for most sites. AVIF is worth reaching for specifically on your highest-traffic pages, where a further 10-20% reduction directly compounds into real LCP gains at scale.</p>
 
       <h2>How to Compress Images for Your Website Using CompressFor</h2>
       <ol>
@@ -242,6 +283,12 @@
 
       <h3>Should I use WebP or JPG for my website?</h3>
       <p>WebP is the better default for most website images in 2026, offering meaningfully smaller file sizes than JPG at the same visual quality, with support across virtually all modern browsers.</p>
+
+      <h3>Is AVIF better than WebP for website images?</h3>
+      <p>AVIF typically produces files 10-20% smaller than WebP at similar visual quality, and modern browsers support it. WebP remains the more pragmatic default for most sites due to faster encoding and slightly broader compatibility, but AVIF is worth using specifically on high-traffic pages where every extra kilobyte saved compounds into real performance gains.</p>
+
+      <h3>What is CLS and how do images affect it?</h3>
+      <p>Cumulative Layout Shift measures how much content unexpectedly moves around as a page loads. Images without explicit width and height attributes in the HTML cause this, since the browser doesn't know how much space to reserve before the image finishes loading. Adding these attributes fixes it at no cost to file size.</p>
 
       <h3>What image size is best for website page speed?</h3>
       <p>Aim for under 150-200KB for hero or above-the-fold images, and under 100KB for smaller supporting images, depending on how the image is displayed on your page.</p>
