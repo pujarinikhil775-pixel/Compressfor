@@ -140,7 +140,7 @@
 </script>
   <link rel="preload" as="style" href="style.css"/>
   <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'"/>
-  <noscript><link rel="stylesheet" href="style.css"/></noscript>
+  <noscript><link rel="stylesheet" href="style.css?v=2"/></noscript>
   <!-- Critical CSS — navbar + hero, inlined so the page paints instantly
        while the full style.css loads in the background. Mirrors the same
        rules in style.css exactly; keep both in sync if you edit either. -->
@@ -468,7 +468,7 @@
     </div>
   </footer>
 
-<script defer src="script.js"></script>
+<script defer src="script.js?v=2"></script>
   <script>
   function toggleTheme() {
     document.body.classList.toggle('dark-mode');
