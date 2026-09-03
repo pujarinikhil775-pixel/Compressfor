@@ -1,3 +1,41 @@
+// ===== MOBILE-SAFE DOWNLOAD HELPER =====
+// iOS Safari is unreliable with <a download> links pointing at blob: URLs —
+// it often opens the image instead of saving it, or does nothing at all.
+// This registers each downloadable blob under a short id, and tries the
+// native share sheet first (gives a real "Save to Photos"/"Save to Files"
+// option on mobile), falling back to the normal download link everywhere
+// the share sheet isn't available (most desktop browsers).
+window.__cfDownloads = window.__cfDownloads || {};
+
+function registerDownload(blob, filename) {
+  const id = 'dl_' + Math.random().toString(36).slice(2, 10);
+  window.__cfDownloads[id] = { blob, filename };
+  return id;
+}
+
+async function triggerDownload(event, id) {
+  const entry = window.__cfDownloads[id];
+  if (!entry) return true; // no record found — fall back to native <a> behavior
+
+  const { blob, filename } = entry;
+
+  if (navigator.canShare) {
+    try {
+      const file = new File([blob], filename, { type: blob.type });
+      if (navigator.canShare({ files: [file] })) {
+        event.preventDefault();
+        await navigator.share({ files: [file] });
+        return false;
+      }
+    } catch (err) {
+      // Share sheet cancelled or failed — fall through to the normal
+      // download link below instead of leaving the user stuck.
+    }
+  }
+
+  return true; // let the normal href/download attribute handle it
+}
+
 // ===== FAQ ACCORDION =====
 function toggleFaq(btn) {
   const item = btn.closest('.faq-item');
@@ -211,7 +249,7 @@ async function compressAll() {
       const dlName = file.name.replace(/\.[^.]+$/, '') + '_compressed.' + ext;
 
       status.innerHTML = `
-        <a class="result-download" href="${url}" download="${dlName}">Download</a>
+        <a class="result-download" href="${url}" download="${dlName}" onclick="return triggerDownload(event, '${registerDownload(blob, dlName)}')">Download</a>
       `;
     } catch (err) {
       status.textContent = 'Error - try another image';
@@ -337,7 +375,7 @@ async function convertAll() {
       const info = card.querySelector('.result-sizes');
       info.textContent = `Converted to ${ext.toUpperCase()} — ${formatSize(blob.size)}`;
       status.innerHTML = `
-        <a class="result-download" href="${url}" download="${dlName}">Download</a>
+        <a class="result-download" href="${url}" download="${dlName}" onclick="return triggerDownload(event, '${registerDownload(blob, dlName)}')">Download</a>
       `;
     } catch (err) {
       console.error(err);
@@ -476,7 +514,7 @@ function loadPresetFiles(files) {
       const url = URL.createObjectURL(blob);
       const dlName = file.name.replace(/\.[^.]+$/, '') + `_${currentPreset}.` + ext;
       status.innerHTML = `
-        <a class="result-download" href="${url}" download="${dlName}">Download</a>
+        <a class="result-download" href="${url}" download="${dlName}" onclick="return triggerDownload(event, '${registerDownload(blob, dlName)}')">Download</a>
       `;
     } catch (err) {
       status.textContent = 'Error';
@@ -702,7 +740,7 @@ async function processPassportPhoto(file) {
               <p>Background: <strong>Pure White (auto-removed)</strong></p>
               <p style="font-size:0.82rem;color:#888;margin-top:0.5rem">Zoom in and check the edges around your hair before submitting — AI background removal is very good but not always perfect on every strand.</p>
               <div class="passport-actions">
-                <a class="result-download" href="${resultUrl}" download="${fileName}">Download Photo</a>
+                <a class="result-download" href="${resultUrl}" download="${fileName}" onclick="return triggerDownload(event, '${registerDownload(blob, fileName)}')">Download Photo</a>
                 <button class="btn-secondary" onclick="resetPassport()">Convert Another</button>
               </div>
             </div>
